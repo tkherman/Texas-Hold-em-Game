@@ -35,7 +35,7 @@ int CardDeck::getSize() {
 }
 
 void CardDeck::shuffle() { // Fisher-Yates shuffle algorithm
-	int n = deck.size(), index;
+	int n = getSize(), index;
 	Card temp;
 
 	while (n) {
