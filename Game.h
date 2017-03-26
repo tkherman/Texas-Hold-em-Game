@@ -24,6 +24,7 @@ class Game{
         void playHand();
     private:
         int numPlayers;
+        vector<Player> playersVec;
         //many helper functions to be added
 };
 
