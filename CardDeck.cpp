@@ -8,6 +8,7 @@
 #include "CardDeck.h"
 using namespace std;
 
+// initialize an unshuffled deck of cards
 CardDeck::CardDeck() {
 	Card tempC;
 	char suits[] = {'d', 'c', 'h', 's'};
@@ -20,10 +21,13 @@ CardDeck::CardDeck() {
 			deck.push_back(tempC);
 		}
 	}
+
+	deck.shuffle();
 }
 
 CardDeck::~CardDeck() { }
 
+// return a card while removing that card from deck
 Card CardDeck::getCard() {
 	Card returnCard = deck.back();
 	deck.pop_back();
@@ -34,6 +38,7 @@ int CardDeck::getSize() {
 	return deck.size();
 }
 
+// shuffle the deck
 void CardDeck::shuffle() { // Fisher-Yates shuffle algorithm
 	int n = getSize(), index;
 	Card temp;

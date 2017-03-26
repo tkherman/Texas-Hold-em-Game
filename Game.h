@@ -1,31 +1,25 @@
 // Game.h
-//This is the interface for the game class for our simulated poker game
+// This is the interface for the game class for our simulated poker game
+// This class documents how many players are in the game and continuously 
+// call round and record the result.
 
 #include <vector>
 #include "CardDeck.h"
+#include "Round.h"
 
-#ifndef CARDDECK_H
-#define CARDDECK_H
+#ifndef GAME_H
+#define GAME_H
 
-struct Player {
-    double money;
-    vector<Card> hand;
-    
-    void resetHand() {
-        hand.clear();
-    }
-}
 
 class Game{
 
     public:
         Game();
         ~Game();
-        void playHand();
+        void playRound();
+
     private:
         int numPlayers;
-        vector<Player> playersVec;
-        //many helper functions to be added
 };
 
 #endif
