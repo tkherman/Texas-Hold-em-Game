@@ -103,7 +103,7 @@ void Round::player_action(int pNum) {
 
 // This function prints out the community cards
 void Round::print_community() {
-	cout << "-------Community Card---------" << endl;
+	cout << "-------Community Cards---------" << endl;
 	for (auto it = communityVec.begin(); it != communityVec.end(); it++) {
 		it->display();
 		cout << " || ";
