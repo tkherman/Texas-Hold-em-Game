@@ -30,6 +30,7 @@ struct Card{
             	suitName = "Spades";
             	break;
     	}
+		
 		if(value == 1) {
 			valName = "Ace";
 		}
