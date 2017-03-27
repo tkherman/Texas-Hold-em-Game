@@ -5,8 +5,9 @@
 #include <string>
 #include <algorithm>
 #include <fstream>
+#include <iostream>
 using namespace std;
-#include "CardDeck.h"
+//#include "CardDeck.h"
 
 void loadCardData(map<string,int> &flushes, map<string,int> &others) {
 	ifstream data("rankings.dat");
@@ -30,6 +31,7 @@ int main() {
 	cout << hand << endl;
 	map<string,int> flushes, others;
 	loadCardData(flushes,others);
-	cout << flushes[hand] << endl;
+	cout << "size: " << sizeof(others) << endl;
+	cout << others[hand] << endl;
 }
 
