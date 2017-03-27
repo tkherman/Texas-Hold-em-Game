@@ -1,0 +1,68 @@
+github repo link: https://github.com/tkherman/Texas-Hold-em-Game
+
+time log link: https://docs.google.com/a/nd.edu/spreadsheets/d/16s7f6LoJHC_Yt0TQVFLJ6ljKgcLSHl2QfEsClUYjv2o/edit?usp=sharing
+
+lab 6 report.txt:
+
+Herman:
+
+INSERT YOUR REPORT HERE
+
+John:
+
+Herman wrote the majority of the CardDeck class, but I added some functions
+and we discussed the class in terms of the overall structure of our program
+before he began.  Essentially, the class stores a vector of "Cards",
+which are represented by a struct containing an int for the value and a char
+for the suit.  The constructor makes this a full deck of 52 cards (containing
+every possible card and no duplicates).  The deck is shuffled using the
+Fisher-Yates shuffling algorithm.  One important function (implemented by 
+Herman) which will be very helpful when we later implement dealing in the 
+Poker game is getCard, which removes the last element from the card vector 
+(which represents the top of the deck), and returns it.  My main contribution
+to the CardDeck class was adding a display function to the Card struct.
+This function uses a switch statement to convert the char representing the
+suit to a more legible string (e.g. 'h' becomes "Hearts") and an if else 
+block to convert the card values to strings (e.g. 1 to "Ace", 5 to "5", and 12
+to "Queen").  I attempted to overload the << operator instead of making a
+display function, but this proved much more difficult than I thought, so I
+decided it wasn't worth the waste of time.  The header I wrote for the Game
+class is very primitive and will likely change significantly.
+
+The most significant things I learned this week deal with possible approaches
+to calculating odds and maintaining our github repository.  Without thinking
+much about it, calculating the odds for a single player to win a hand at a
+given point in Texas Hold'em does not sound terribly difficult.  However, with
+over 2.5 million possible poker hands, actually enumerating all possible hand
+combinations for each player and determining the number of hands that will
+win is extraordinarily expensive computationally.  A much better approach is 
+applying a Monte Carlo approximation, which essentially means simulating a
+bunch of random possibilities for the rest of the hand and determining odds
+from those results.  This will not produce absolutely accurate odds, but
+with enough simulations, the odds we generate will be exceedingly close to
+what we would get from a complete enumeration.  My other significant area
+of research this week had to do with using git with a partner.  From systems
+programming, I know how to stage, commit, and push code from a local master
+branch to the online master branch, but I didn't know how to create different
+branches so that Herman and I can work on different pieces at the same time.
+Using git checkout, I can create a new branch with the intent of working on
+a specific area of code without altering the master branch until I am sure it
+is fully working.  When I am satisfied with my changes, I can merge my new
+branch back to master using git merge (though merge conflicts must be patched
+before this will actually take place).
+
+_____________________________________
+Post-Lab 6 Update:
+Since lab 6 was completed, we finished building the overall shell of our 
+program.  As of now, we can run a "poker game" from the command line that
+allows users to see their cards and fold or stay in on the proper occasions
+(after the deal, after the flop, after the turn, and after the river).  We have 
+also been focusing on different algorithms for comparing 5 card poker hands. 
+Some of the approaches we found online are impressively efficient but 
+exceedingly complicated.  In our research, we found a text file from an open 
+source github repo that ranks every "equivalence class" of hands (that is, 
+groups of 5 card poker hands that are equal in value).  By using the std::sort
+algorithm to sort each string in the text file, we were able to create an STL
+map that takes in a hand (represented by a 5 character string like "369JA") as
+its key and has the rank of the card as its value.  We plan on using these 
+values to compare cards.
