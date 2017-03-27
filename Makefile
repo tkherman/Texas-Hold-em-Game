@@ -8,3 +8,6 @@ Round.o: Round.cpp Round.h CardDeck.h
 
 CardDeck.o: CardDeck.cpp CardDeck.h
 	g++ -c -std=c++11 -o $@ CardDeck.cpp
+
+clean:
+	rm -rf *.o test_round
