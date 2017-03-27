@@ -11,6 +11,7 @@ using namespace std;
 struct Player {
     Card hand[2];
     int playerNum;
+    bool in_out;
 };
 
 class Round {

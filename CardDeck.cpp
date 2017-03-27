@@ -22,7 +22,7 @@ CardDeck::CardDeck() {
 		}
 	}
 
-	deck.shuffle();
+	shuffle();
 }
 
 CardDeck::~CardDeck() { }
