@@ -4,9 +4,6 @@ time log link: https://docs.google.com/a/nd.edu/spreadsheets/d/16s7f6LoJHC_Yt0TQ
 
 lab 6 report.txt:
 
-Herman:
-
-INSERT YOUR REPORT HERE
 
 John:
 
@@ -50,6 +47,26 @@ a specific area of code without altering the master branch until I am sure it
 is fully working.  When I am satisfied with my changes, I can merge my new
 branch back to master using git merge (though merge conflicts must be patched
 before this will actually take place).
+
+Herman:
+
+So far, what we've discovered is that it would be difficult to straight out do
+the probablistic calculation behind every hand and that it is a much better
+approach to use the Monte Carlo method. This would mean that the outcome would
+be a estimation but research we did showed that the outcome would still be
+fairly accurate. John is in charge of doing further research on how to
+implement this. In my research, I discovered that it may be useful to
+precalculate the ranking of all possible 5 card hands. It would only take up
+about 10mb of space because there are only 52C5 possible hands which is not too
+large of a number. My next step would be to figure out how to store the all the
+precalculated rankings in a data structure that would allow the fastest access
+and how to load the precalculated rankings into our program each time the
+program starts.
+
+In terms of coding, John and I will be trying to code a functional poker game
+as soon as possible so that we can get started on the odd
+calculation/estimation.
+
 
 _____________________________________
 Post-Lab 6 Update:
