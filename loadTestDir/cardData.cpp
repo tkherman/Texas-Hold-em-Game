@@ -13,14 +13,14 @@ void loadCardData(map<string,int> &flushes, map<string,int> &others) {
 	ifstream data("rankings.dat");
 	if (data.is_open()) {
 		string line;
-		int fct = 0, rct = 0;
+		int rank = 1;
 		while (getline(data,line)) {
 
 			sort(line.begin()+2, line.end()); //sort hand to standardize
 			if(line[0] == '8' || line[0] == '5')  //a flush
-				flushes[line.substr(2,5)] = fct++; //increment fct when done
+				flushes[line.substr(2,5)] = rank++; //increment fct when done
 			else
-				others[line.substr(2,5)] = rct++;
+				others[line.substr(2,5)] = rank++;
 		}
 	}
 }
