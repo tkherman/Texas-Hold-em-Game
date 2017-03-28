@@ -1,7 +1,7 @@
 //cardData.h
 //reads in card data from ranking file and stores in dictionary
 
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <algorithm>
 #include <fstream>
@@ -9,7 +9,7 @@
 using namespace std;
 //#include "CardDeck.h"
 
-void loadCardData(map<string,int> &flushes, map<string,int> &others) {
+void loadCardData(unordered_map<string,int> &flushes, unordered_map<string,int> &others) {
 	ifstream data("rankings.dat");
 	if (data.is_open()) {
 		string line;
@@ -29,7 +29,7 @@ int main() {
 	string hand = "KAA5A";
 	sort(hand.begin(),hand.end());
 	cout << hand << endl;
-	map<string,int> flushes, others;
+	unordered_map<string,int> flushes, others;
 	loadCardData(flushes,others);
 	cout << "size: " << sizeof(others) << endl;
 	cout << others[hand] << endl;
