@@ -10,8 +10,9 @@ using namespace std;
 #define CARDDECK_H
 
 struct Card{
-	int value;
+	unsigned int value;
 	char suit;
+    unsigned int prime_value;
 	void display() {
 		
 		string valName, suitName;
