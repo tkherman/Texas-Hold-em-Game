@@ -4,12 +4,17 @@
 #include <iostream>
 #include <vector>
 #include "Round.h"
-#include "CardDeck.h"
+//#include "CardDeck.h"
+//#include "handTable.h"
 using namespace std;
 
 
-Round::Round(int n) {
-	numPlayers = n;
+Round::Round(int n, unordered_map<int, int> &flushes, unordered_map<int, int> &others) {
+	/* initialize variables */
+    numPlayers = n;
+
+    cout << flushes[14535931] << endl;
+    
 
 	/* first step: deal cards to each player, determine who's in and out*/
 	deal(numPlayers);
@@ -65,7 +70,7 @@ Round::Round(int n) {
 
 
 	/* if more than 1 player left, compare hands */
-	//if (playerVec.size() > 1) winner = determine_winner;
+	//if (playerVec.size() > 1) winner = determine_winner(flushes, others);
 
 }
 
@@ -117,4 +122,8 @@ void Round::print_players(int playerN) {
 	cout << endl;
 	playerVec[playerN].hand[1].display();
 	cout << endl;
+}
+
+int Round::determine_winner() {
+    
 }
