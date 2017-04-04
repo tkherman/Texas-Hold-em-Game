@@ -24,7 +24,7 @@ Round::Round(int n, unordered_map<int, int> &flushes, unordered_map<int, int> &o
 			player_action(it->playerNum);
 		}
 	}
-
+}
 
 	/* if there are more than 1 player, do initial flop and determines who's still in */
 	if (playerVec.size() > 1) {
