@@ -12,7 +12,7 @@ using namespace std;
 struct Card{
 	unsigned int value;
 	char suit;
-    unsigned int prime_value;
+    int prime_value;
 	void display() {
 		
 		string valName, suitName;
@@ -51,6 +51,12 @@ struct Card{
 		//acutal display
 		cout << valName << " of " << suitName;
 	}
+
+    // overwriting operator within Card so to use std::next_permutation function
+    friend bool operator<(const Card &lhs, const Card &rhs) {
+        return (lhs.prime_value < rhs.prime_value);
+    }
+
 };
 
 class CardDeck {

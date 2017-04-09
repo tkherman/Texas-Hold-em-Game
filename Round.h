@@ -2,6 +2,7 @@
 // This is the class interface for Round class which allow the playing of a round
 #include <vector>
 #include <iostream>
+#include <algorithm>
 #include "CardDeck.h"
 #include "handTable.h"
 using namespace std;
@@ -13,7 +14,7 @@ struct Player {
     Card hand[2];
     int playerNum;
     bool in_out;
-    int max_prime;
+    int best_rank;
 };
 
 class Round {
@@ -25,17 +26,14 @@ class Round {
 		void player_action(int); // determines if the player stays or not
 		void print_community();
 		void print_players(int);
-		int determine_winner();
-
+		void determine_winner(unordered_map<int, int>&, unordered_map<int, int>&);
+        void determine_best_rank(int, unordered_map<int, int>&, unordered_map<int, int>&);
 
 	private:
 		vector<Player> playerVec;
 		vector<Card> communityVec;
 		int numPlayers;
 		CardDeck deck;
-        //unordered_map<int, int> *flushesPTR;
-        //unordered_map<int, int> *othersPTR;
-		//int winner;
 
 };
 
