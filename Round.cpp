@@ -34,7 +34,7 @@ Round::Round(int n, unordered_map<int, int> &flushes, unordered_map<int, int> &o
 	}
 	
 
-	/* if there are more than 1 player, do another flop and determines who's still in */
+	/* if there is more than 1 player, do another flop and determines who's still in */
 	if (playerVec.size() > 1) {
 		flop();
 		print_community();
@@ -48,7 +48,7 @@ Round::Round(int n, unordered_map<int, int> &flushes, unordered_map<int, int> &o
 	
 
 
-	/* if there are more than 1 player, do the final flop, determines who's still in */
+	/* if there is more than 1 player, do the final flop, determines who's still in */
 	if (playerVec.size() > 1) {
 		flop();
 		print_community();
