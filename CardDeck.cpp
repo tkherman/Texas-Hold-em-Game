@@ -4,11 +4,11 @@
 // normal deck of cards would have
 
 #include <vector>
-#include <stdlib.h>
+#include <random>
 #include "CardDeck.h"
 using namespace std;
 
-// initialize an unshuffled deck of cards
+// initialize a deck of cards
 CardDeck::CardDeck() {
 	Card tempC;
 	char suits[] = {'d', 'c', 'h', 's'};
@@ -36,6 +36,26 @@ Card CardDeck::getCard() {
 	return returnCard;
 }
 
+void CardDeck::remove(Card c) {
+	for(int k=0; k<deck.size(); k++) {
+		//check for equality; easier than overwriting equality operator
+		if(deck[k].suit == c.suit && deck[k].value == c.value) {
+
+			//using pop_back to avoid resizing entire list
+			int backIndex = deck.size() - 1;
+			//if at end, pop off the back
+			if(k == backIndex)
+				deck.pop_back();
+			else { //swap and remove
+				Card temp = deck[backIndex];
+				deck[backIndex] = deck[k];
+				deck[k] = temp;
+				deck.pop_back();
+			}
+		}
+	}
+}
+
 int CardDeck::getSize() {
 	return deck.size();
 }
@@ -45,9 +65,24 @@ void CardDeck::shuffle() { // Fisher-Yates shuffle algorithm
 	int n = getSize(), index;
 	Card temp;
 
+	/*default_random_engine generator;
+	uniform_int_distribution<int> distribution(0,51);
+	int dice_roll = distribution(generator); 
+*/
+	std::random_device rd;
+	std::mt19937 mt(rd());
+	std::uniform_int_distribution<int> dist(0, 200);
+
+/*	for(int k=0; k<n; k++) {
+		index = dist(mt) << endl;
+		temp = deck[n];
+		deck[n] = deck[index];
+		deck[index] = temp;
+
+	}*/
+
 	while (n) {
-		srand(time(NULL)); 
-		index = rand() % n--; // random value 0 <= i < n
+		index = dist(mt) % n--; // random value 0 <= i < n
 		temp = deck[n];
 		deck[n] = deck[index];
 		deck[index] = temp;

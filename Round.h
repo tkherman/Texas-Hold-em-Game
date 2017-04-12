@@ -26,14 +26,24 @@ class Round {
 		void player_action(int); // determines if the player stays or not
 		void print_community();
 		void print_players(int);
-		double getOdds(Card hand[2], vector<Card> communityVec, int playersLeft);
-		void determine_winner(unordered_map<int, int>&, unordered_map<int, int>&);
-        void determine_best_rank(int, unordered_map<int, int>&, unordered_map<int, int>&);
+
+		double getOdds(Card hand[2], vector<Card>, unordered_map<int,int>&, 
+			unordered_map<int, int>&, int);
+
+		int monteCarlo(CardDeck, Card hand[2], vector<Card>, 
+			unordered_map<int,int>&, unordered_map<int,int>&, int&);
+
+		void determine_winner(vector<Player>, unordered_map<int, int>&, 
+			unordered_map<int, int>&);
+
+        int determine_best_rank(Card hand[2], vector<Card>, 
+        	unordered_map<int, int>&, unordered_map<int, int>&);
 
 	private:
 		vector<Player> playerVec;
 		vector<Card> communityVec;
 		int numPlayers;
+		int playersLeft;
 		CardDeck deck;
 
 };

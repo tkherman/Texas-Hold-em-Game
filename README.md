@@ -30,4 +30,4 @@ multiplication as the key.
 
 How are the odd calculated?
 
-We uses the Monte Carlo approach to estimate the odds
+We use the Monte Carlo approach to estimate the odds

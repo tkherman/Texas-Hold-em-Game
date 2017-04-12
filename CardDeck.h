@@ -66,6 +66,7 @@ class CardDeck {
 		Card getCard();
 		int getSize();
 		void shuffle();
+		void remove(Card);
 		void resetDeck();
 	private:
 		vector<Card> deck;
