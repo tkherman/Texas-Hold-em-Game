@@ -22,7 +22,7 @@ Round::Round(int n, unordered_map<int, int> &flushes, unordered_map<int, int> &o
 
 
 	/* if there is more than 1 player, do initial flop and determines who's still in */
-	if (playerVec.size() > 1) {
+	if (playersLeft > 1) {
 		for (int i = 0; i < 3; i++) {
 			flop();
 		}
@@ -38,7 +38,7 @@ Round::Round(int n, unordered_map<int, int> &flushes, unordered_map<int, int> &o
 	
 
 	/* if there is more than 1 player, do another flop and determines who's still in */
-	if (playerVec.size() > 1) {
+	if (playersLeft > 1) {
 		flop();
 		print_community();
 		for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
@@ -53,7 +53,7 @@ Round::Round(int n, unordered_map<int, int> &flushes, unordered_map<int, int> &o
 
 
 	/* if there is more than 1 player, do the final flop, determines who's still in */
-	if (playerVec.size() > 1) {
+	if (playersLeft > 1) {
 		flop();
 		print_community();
 		for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
@@ -65,9 +65,14 @@ Round::Round(int n, unordered_map<int, int> &flushes, unordered_map<int, int> &o
 		}
 	}
 	
-    
-    //if (playersLeft > 1) 
-    	determine_winner(playerVec, flushes, others);
+    if (playersLeft > 1)
+        determine_winner(playerVec, flushes, others);
+    else if (playersLeft == 1) {
+        for (auto it = playerVec.begin(); it != playerVec.end(); it++)
+            if (it->in_out)
+                cout << "player" << it->playerNum << " wins" << endl;
+    } else
+        cout << "Why are you even playing if you all fold in pre-flop!???!!!" << endl;
 
 }
 
@@ -125,21 +130,25 @@ void Round::print_players(int playerN) {
 void Round::determine_winner(vector<Player> players, unordered_map<int, int>& flushes, 
 		unordered_map<int, int>& others) {
 
+
     // find the max prime of players that are still in
     for (auto it = players.begin(); it != players.end(); it++) {
         if (it->in_out) 
         	it->best_rank = determine_best_rank(it->hand, communityVec, flushes, others);
     }
     
+
     // determine the highest rank
     int winning_rank = MAX_RANK;
     for (auto it = players.begin(); it != players.end(); it++) {
-        if (it->best_rank < winning_rank) winning_rank = it->best_rank;
+        if (it->in_out && it->best_rank < winning_rank) 
+            winning_rank = it->best_rank;
     }
+
     
     // print out players with highest rank
     for (auto it = players.begin(); it != players.end(); it++) {
-        if (it->in_out == true && it->best_rank == winning_rank)
+        if (it->in_out && it->best_rank == winning_rank)
             cout << "player" << it->playerNum << " wins" << endl;
     }
 

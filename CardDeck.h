@@ -52,10 +52,6 @@ struct Card{
 		cout << valName << " of " << suitName;
 	}
 
-    // overwriting operator within Card so to use std::next_permutation function
-    friend bool operator<(const Card &lhs, const Card &rhs) {
-        return (lhs.prime_value < rhs.prime_value);
-    }
 
 };
 

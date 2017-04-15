@@ -65,21 +65,9 @@ void CardDeck::shuffle() { // Fisher-Yates shuffle algorithm
 	int n = getSize(), index;
 	Card temp;
 
-	/*default_random_engine generator;
-	uniform_int_distribution<int> distribution(0,51);
-	int dice_roll = distribution(generator); 
-*/
 	std::random_device rd;
 	std::mt19937 mt(rd());
 	std::uniform_int_distribution<int> dist(0, 200);
-
-/*	for(int k=0; k<n; k++) {
-		index = dist(mt) << endl;
-		temp = deck[n];
-		deck[n] = deck[index];
-		deck[index] = temp;
-
-	}*/
 
 	while (n) {
 		index = dist(mt) % n--; // random value 0 <= i < n
