@@ -55,6 +55,14 @@ struct Card{
 
 };
 
+//player struct
+struct Player {
+    Card hand[2];
+    int playerNum;
+    bool in_out;
+    int best_rank;
+};
+
 class CardDeck {
 	public:
 		CardDeck();

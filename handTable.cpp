@@ -48,10 +48,3 @@ int searchRank(int prime_multiple, bool flushesORnot, unordered_map<int, int> &f
     else return others[prime_multiple];
 }
 
-/*int main() {
-    unordered_map<int, int> flushes, others;
-    loadHandData(flushes, others);
-    //int rank = searchRank(31367009, true, flushes, others);
-    int rank = searchRank(1279091, false, flushes, others);
-    cout << rank << endl;
-}*/
