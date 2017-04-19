@@ -12,13 +12,7 @@ Round::Round(int n, unordered_map<int, int> &flushes, unordered_map<int, int> &o
 
 	/* first step: deal cards to each player, determine who's in and out*/
 	deal(numPlayers);
-	for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
-		if (it->in_out) {
-			print_players(it->playerNum);
-			cout << getOdds(it->hand, communityVec, flushes, others, numPlayers) << endl;
-			player_action(it->playerNum);
-		}
-	}
+    ante(flushes, others);
 
 
 	/* if there is more than 1 player, do initial flop and determines who's still in */
@@ -27,13 +21,7 @@ Round::Round(int n, unordered_map<int, int> &flushes, unordered_map<int, int> &o
 			flop();
 		}
 		print_community();
-		for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
-			if (it->in_out) {
-				print_players(it->playerNum);
-				cout << getOdds(it->hand, communityVec, flushes, others, playersLeft) << endl;
-				player_action(it->playerNum);
-			}
-		}
+        betting_round(flushes, others);
 	}
 	
 
@@ -41,13 +29,7 @@ Round::Round(int n, unordered_map<int, int> &flushes, unordered_map<int, int> &o
 	if (playersLeft > 1) {
 		flop();
 		print_community();
-		for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
-			if (it->in_out) {
-				print_players(it->playerNum);
-				cout << getOdds(it->hand, communityVec, flushes, others, playersLeft) << endl;
-				player_action(it->playerNum);
-			}
-		}
+        betting_round(flushes, others);
 	}
 	
 
@@ -56,15 +38,10 @@ Round::Round(int n, unordered_map<int, int> &flushes, unordered_map<int, int> &o
 	if (playersLeft > 1) {
 		flop();
 		print_community();
-		for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
-			if (it->in_out) {
-				print_players(it->playerNum);
-				cout << getOdds(it->hand, communityVec, flushes, others, playersLeft) << endl;
-				player_action(it->playerNum);
-			}
-		}
+        betting_round(flushes, others);
 	}
-	
+    
+    // determine winner
     if (playersLeft > 1)
         determine_winner(playerVec, flushes, others);
     else if (playersLeft == 1) {
@@ -99,7 +76,7 @@ void Round::flop() {
 // This function determines if the player stays or not
 // If player folds, remove from vector
 // If player stays, do nothing
-void Round::player_action(int pNum) {
+/*void Round::player_action(int pNum) {
 	char input;
 	cout << "fold or stay in? f for fold, s for stay: ";
 	cin >> input;
@@ -107,7 +84,7 @@ void Round::player_action(int pNum) {
 		playerVec[pNum].in_out = false;
 		playersLeft--;
 	}
-}
+}*/
 
 // This function prints out the community cards
 void Round::print_community() {
@@ -154,3 +131,180 @@ void Round::determine_winner(vector<Player> players, unordered_map<int, int>& fl
 
 }
 
+void Round::ante(unordered_map<int, int> &flushes, unordered_map<int, int> &others) {
+    string input;
+
+    for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
+        print_players(it->playerNum);
+        cout << "Chance of winning: " << getOdds(it->hand, communityVec, flushes, others, numPlayers) << endl;
+
+        // ask for user input depending on raising flag
+        bool corr_input = false; // flag to check if user is inputing right
+        while (!corr_input) {
+            cout << "Do you wish to check, or fold? ";
+            cin >> input;
+        
+            switch(hashit(input)) {
+                case fold:
+                    it->in_out = false;
+                    it->cash_balance -= ANTE;
+                    potArr[it->playerNum] += ANTE;
+                    corr_input = true;
+                    break;
+                case check:
+                    it->cash_balance -= ANTE;
+                    potArr[it->playerNum] += ANTE;
+                    corr_input = true;
+                    break;
+                case invalid:
+                case bet:
+                case call:
+                case raise:
+                    cout << "Invalid input, please try again" << endl;
+                    break;
+            }
+        }
+    }
+}
+
+void Round::betting_round(unordered_map<int, int> &flushes, unordered_map<int, int> &others) {
+    string input;
+    bool settled = false; // flag to see if we've gone around the table
+    bool can_check = true; // flag to see if player can check
+
+    vector<Player>::iterator it = playerVec.begin();
+    while(!settled) {
+        if (it->in_out) {
+            print_players(it->playerNum);
+            cout << "Chance of winning: " << getOdds(it->hand, communityVec, flushes, others, numPlayers) << endl;
+        
+            // ask for user input depending on raising flag
+            bool corr_input = false; // flag to check if user is inputing right
+            while (!corr_input) {
+                cout << "Do you wish to fold, bet, call, or raise? ";
+                cin >> input;
+        
+                switch(hashit(input)) {
+                    case check:
+                        if (!can_check) {
+                            cout << "Must call, raise or fold" << endl;
+                            break;
+                        }
+                        corr_input = true;
+                        break;
+                    case fold:
+                        it->in_out = false;
+                        corr_input = true;
+                        break;
+                    case bet:
+                        it->cash_balance -= FIXED_LIMIT;
+                        potArr[it->playerNum] += FIXED_LIMIT;
+                        corr_input = true;
+                        break;
+                    case call:
+                        it->cash_balance -= FIXED_LIMIT;
+                        potArr[it->playerNum] += FIXED_LIMIT;
+                        corr_input = true;
+                        break;
+                    case raise:
+                        it->cash_balance -= (FIXED_LIMIT * 2);
+                        potArr[it->playerNum] += (FIXED_LIMIT * 2);
+                        raising(it->playerNum, 1, flushes, others);
+                        settled = true;
+                        corr_input = true;
+                        break;
+                    case invalid:
+                        cout << "Invalid input, please try again" << endl;
+                        break;
+                }
+            }
+        
+            it++;
+            if (it == playerVec.end())
+                settled = true;
+        } else {
+            it++;
+            if (it == playerVec.end())
+                settled = true;
+        }
+    }
+}
+
+void Round::raising(int raising_playerNum, int raise_no, unordered_map<int, int> &flushes,
+    unordered_map<int, int> &others) {
+    string input;
+    bool settled = false;
+    
+    // initialize itertor, move to one after the raising player
+    vector<Player>::iterator raising_it = playerVec.begin();
+    for (int i = 0; i < raising_playerNum; i++) 
+        raising_it++; // this moves to raising player
+    
+    // moves to the one after raising player
+    vector<Player>::iterator it = raising_it + 1;
+    
+    
+    while (!settled) {
+        if (it->in_out) {
+            int adding_amount;
+            // ask for user input depending on raising flag
+            bool corr_input = false; // flag to check if user is inputing right
+            while (!corr_input) {
+                cout << "Do you wish to fold, bet, call, or raise? ";
+                cin >> input;
+        
+                switch(hashit(input)) {
+                    case check:
+                        cout << "A player has raise, you must call, raise or fold" << endl;
+                        break;
+                    case fold:
+                        it->in_out = false;
+                        corr_input = true;
+                        break;
+                    case bet:
+                        adding_amount = potArr[raising_it->playerNum] - potArr[it->playerNum];
+                        it->cash_balance -= adding_amount;
+                        potArr[it->playerNum] += adding_amount;
+                        corr_input = true;
+                        break;
+                    case call:
+                        adding_amount = potArr[raising_it->playerNum] - potArr[it->playerNum];
+                        it->cash_balance -= adding_amount;
+                        potArr[it->playerNum] += adding_amount;
+                        corr_input = true;
+                        break;
+                    case raise:
+                        // reached raise cap, ask for input again
+                        if (raise_no > 4) {
+                            cout << "Reaching raise cap, cannot raise again. Please input "
+                                << "another  option." << endl;
+                        break;
+                        }
+                    
+                        // calculate total amount including raising, then call raising again
+                        adding_amount = potArr[raising_it->playerNum] - potArr[it->playerNum] + FIXED_LIMIT;
+                        it->cash_balance -= adding_amount;
+                        potArr[it->playerNum] += adding_amount;
+                        raising(it->playerNum, raise_no++, flushes, others);
+                        corr_input = true;
+                        break;
+                    case invalid:
+                        cout << "Invalid input, please try again" << endl;
+                        break;
+                }
+            }
+
+            it++;
+            if (it == playerVec.end())
+                it = playerVec.begin();
+            else if (it == raising_it)
+                settled = true;
+        } else {
+            it++;
+            if (it == playerVec.end())
+                it = playerVec.begin();
+            else if (it == raising_it)
+                settled = true;
+        }
+    }
+}

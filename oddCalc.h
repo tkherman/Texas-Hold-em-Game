@@ -4,6 +4,7 @@
 #include <vector>
 #include <unordered_map>
 #include "CardDeck.h"
+#include "handTable.h"
 using namespace std;
 
 #ifndef ODDCALC_H

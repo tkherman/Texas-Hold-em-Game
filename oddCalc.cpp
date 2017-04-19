@@ -1,7 +1,6 @@
 // This is the function implementation for oddCalc
 
 #include "oddCalc.h"
-#include "handTable.h"
 using namespace std;
 
 
@@ -58,8 +57,14 @@ int monteCarlo(CardDeck myDeck, Card hand[2], vector<Card> community,
 	vector<Player> playerCards;
 
 	//deal cards to player who's odds we're determining and add to player vector
-	Player our_player = {hand[0], hand[1], 0, true, MAX_RANK};
-	playerCards.push_back(our_player);
+	Player our_player;
+	our_player.hand[0] = hand[0];
+    our_player.hand[1] = hand[1];
+    our_player.playerNum = 0;
+    our_player.in_out = true;
+    our_player.best_rank = MAX_RANK;
+    our_player.cash_balance = 0;
+    playerCards.push_back(our_player);
 	//deal cards to everyone else
 	for (int i = 1; i < playersLeft; i++) {
 		Player temp_player;
@@ -115,7 +120,7 @@ double getOdds(Card hand[2], vector<Card> community, unordered_map<int,int> &flu
 	
 	//run simulations
 	int wins = 0, losses = 0, ties = 0;
-	for(int k=0; k<50000; k++) {
+	for(int k=0; k<10000; k++) {
 		int result = monteCarlo(myDeck, hand, community, flushes, others, playersLeft);
 		//result will only be -1, 0, or 1
 		switch(result) {

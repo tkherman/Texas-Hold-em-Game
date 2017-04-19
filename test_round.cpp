@@ -10,5 +10,5 @@
 int main() {
 	unordered_map<int, int> flushes, others;
     loadHandData(flushes, others);
-    Round r(5, flushes, others);
+    Round (5, flushes, others);
 }
