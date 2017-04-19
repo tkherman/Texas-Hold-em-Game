@@ -1,12 +1,15 @@
 // Round.h
 // This is the class interface for Round class which allow the playing of a round
+
 #include <vector>
 #include <iostream>
 #include <algorithm>
 #include <string>
+#include <unordered_map>
 #include "CardDeck.h"
 #include "handTable.h"
 #include "oddCalc.h"
+
 using namespace std;
 
 #ifndef ROUND_H
@@ -14,26 +17,27 @@ using namespace std;
 
 #define ANTE 5
 #define FIXED_LIMIT 20
-#define RAISE_CAP 4;
+#define RAISE_CAP 4
 
 
-enum PlayerAction {
+typedef enum {
     fold,
     check,
     bet,
     call,
     raise,
     invalid,
-};
+}PlayerAction;
 
-PlayerAction hashit(const string &input) {
+PlayerAction hashit(const string &input);
+/*PlayerAction hashit(const string &input) {
     if (input == "fold") return fold;
     else if (input == "check") return check;
     else if (input == "bet") return bet;
     else if (input == "call") return call;
     else if (input == "raise") return raise;
     else return invalid;
-}
+}*/
 
 
 class Round {

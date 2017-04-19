@@ -3,6 +3,14 @@
 
 #include "Round.h"
 
+PlayerAction hashit(const string &input) {
+    if (input == "fold") return fold;
+    else if (input == "check") return check;
+    else if (input == "bet") return bet;
+    else if (input == "call") return call;
+    else if (input == "raise") return raise;
+    else return invalid;
+}
 
 Round::Round(int n, unordered_map<int, int> &flushes, unordered_map<int, int> &others) {
 	/* initialize variables */

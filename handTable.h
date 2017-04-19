@@ -1,6 +1,8 @@
 // handTable.h
 // This .h file contains the function prototypes for the handTable 
 
+#pragma once
+
 #include <unordered_map>
 #include <string>
 #include <fstream>
