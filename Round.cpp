@@ -2,7 +2,6 @@
 // This is the implementation of the Round class
 
 #include "Round.h"
-#include "oddCalc.h" //include odd calculation functions
 
 
 Round::Round(int n, unordered_map<int, int> &flushes, unordered_map<int, int> &others) {

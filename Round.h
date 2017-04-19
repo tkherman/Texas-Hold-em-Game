@@ -5,6 +5,7 @@
 #include <algorithm>
 #include "CardDeck.h"
 #include "handTable.h"
+#include "oddCalc.h"
 using namespace std;
 
 #ifndef ROUND_H
@@ -20,17 +21,10 @@ class Round {
 		void print_community();
 		void print_players(int);
 
-/*		double getOdds(Card hand[2], vector<Card>, unordered_map<int,int>&, 
-			unordered_map<int, int>&, int);
 
-		int monteCarlo(CardDeck, Card hand[2], vector<Card>, 
-			unordered_map<int,int>&, unordered_map<int,int>&, int&);
-*/
 		void determine_winner(vector<Player>, unordered_map<int, int>&, 
 			unordered_map<int, int>&);
 
-        //int determine_best_rank(Card hand[2], vector<Card>, 
-        //	unordered_map<int, int>&, unordered_map<int, int>&);
 		
 	private:
 		vector<Player> playerVec;
