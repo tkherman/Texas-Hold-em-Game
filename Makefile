@@ -13,10 +13,10 @@ CardDeck.o: CardDeck.cpp CardDeck.h
 	g++ -c -std=c++11 -o $@ CardDeck.cpp
 
 handTable.o: handTable.cpp handTable.h
-    g++ -c -std=c++11 -o $@ handTable.cpp
+	g++ -c -std=c++11 -o $@ handTable.cpp
 
 oddCalc.o: oddCalc.cpp oddCalc.h
-    g++ -c -std=c++11 -o $@ oddCalc.cpp
+	g++ -c -std=c++11 -o $@ oddCalc.cpp
 
 clean:
 	rm -rf *.o test_exec
