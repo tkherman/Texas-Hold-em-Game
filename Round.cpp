@@ -185,6 +185,7 @@ void Round::betting_round(unordered_map<int, int> &flushes, unordered_map<int, i
         if (it->in_out) {
             print_players(it->playerNum);
             cout << "Chance of winning: " << getOdds(it->hand, communityVec, flushes, others, numPlayers) << endl;
+            cout << "You have $" << it->cash_balance << endl;
         
             // ask for user input depending on raising flag
             bool corr_input = false; // flag to check if user is inputing right
@@ -208,11 +209,13 @@ void Round::betting_round(unordered_map<int, int> &flushes, unordered_map<int, i
                         it->cash_balance -= FIXED_LIMIT;
                         potArr[it->playerNum] += FIXED_LIMIT;
                         corr_input = true;
+                        can_check = false;
                         break;
                     case call:
                         it->cash_balance -= FIXED_LIMIT;
                         potArr[it->playerNum] += FIXED_LIMIT;
                         corr_input = true;
+                        can_check = false;
                         break;
                     case raise:
                         it->cash_balance -= (FIXED_LIMIT * 2);
@@ -249,11 +252,17 @@ void Round::raising(int raising_playerNum, int raise_no, unordered_map<int, int>
         raising_it++; // this moves to raising player
     
     // moves to the one after raising player
-    vector<Player>::iterator it = raising_it + 1;
+    vector<Player>::iterator it = raising_it;
+    it++;
+    if (it == playerVec.end())
+        it = playerVec.begin();
     
     
     while (!settled) {
         if (it->in_out) {
+            print_players(it->playerNum);
+            cout << "Chance of winning: " << getOdds(it->hand, communityVec, flushes, others, numPlayers) << endl;
+            cout << "You have $" << it->cash_balance << endl;
             int adding_amount;
             // ask for user input depending on raising flag
             bool corr_input = false; // flag to check if user is inputing right
@@ -272,18 +281,18 @@ void Round::raising(int raising_playerNum, int raise_no, unordered_map<int, int>
                     case bet:
                         adding_amount = potArr[raising_it->playerNum] - potArr[it->playerNum];
                         it->cash_balance -= adding_amount;
-                        potArr[it->playerNum] += adding_amount;
+                        potArr[it->playerNum] = potArr[raising_it->playerNum];
                         corr_input = true;
                         break;
                     case call:
                         adding_amount = potArr[raising_it->playerNum] - potArr[it->playerNum];
                         it->cash_balance -= adding_amount;
-                        potArr[it->playerNum] += adding_amount;
+                        potArr[it->playerNum] = potArr[raising_it->playerNum];
                         corr_input = true;
                         break;
                     case raise:
                         // reached raise cap, ask for input again
-                        if (raise_no > 4) {
+                        if (raise_no > RAISE_CAP) {
                             cout << "Reaching raise cap, cannot raise again. Please input "
                                 << "another  option." << endl;
                         break;
@@ -305,13 +314,13 @@ void Round::raising(int raising_playerNum, int raise_no, unordered_map<int, int>
             it++;
             if (it == playerVec.end())
                 it = playerVec.begin();
-            else if (it == raising_it)
+            if (it == raising_it)
                 settled = true;
         } else {
             it++;
             if (it == playerVec.end())
                 it = playerVec.begin();
-            else if (it == raising_it)
+            if (it == raising_it)
                 settled = true;
         }
     }
