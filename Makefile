@@ -4,7 +4,7 @@ test_exec: test_round.o Round.o CardDeck.o handTable.o oddCalc.o
 	g++ -std=c++11 -o $@ $^
 
 test_round.o: test_round.cpp
-    g++ -c -std=c++11 -o $@ test_round.cpp
+	g++ -c -std=c++11 -o $@ test_round.cpp
 
 Round.o: Round.cpp Round.h CardDeck.h 
 	g++ -c -std=c++11 -o $@ Round.cpp
