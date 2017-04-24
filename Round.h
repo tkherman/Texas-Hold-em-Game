@@ -30,14 +30,6 @@ typedef enum {
 }PlayerAction;
 
 PlayerAction hashit(const string &input);
-/*PlayerAction hashit(const string &input) {
-    if (input == "fold") return fold;
-    else if (input == "check") return check;
-    else if (input == "bet") return bet;
-    else if (input == "call") return call;
-    else if (input == "raise") return raise;
-    else return invalid;
-}*/
 
 
 class Round {
@@ -48,7 +40,7 @@ class Round {
 		void flop();
         void ante(unordered_map<int, int>&, unordered_map<int, int>&);
         void betting_round(unordered_map<int, int>&, unordered_map<int, int>&);
-        void raising(int, int, unordered_map<int, int>&, unordered_map<int, int>&);
+        //void raising(int, int, unordered_map<int, int>&, unordered_map<int, int>&);
 		void print_community();
 		void print_players(int);
 
@@ -63,8 +55,7 @@ class Round {
 		int numPlayers;
 		int playersLeft;
 		CardDeck deck;
-        int potArr[10]; // let 10 be the max number of players at a table
-
+        int potBalance;
 };
 
 #endif
