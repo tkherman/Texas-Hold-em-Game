@@ -35,7 +35,9 @@ PlayerAction hashit(const string &input);
 class Round {
 	public:
 		Round(int, unordered_map<int, int>&, unordered_map<int, int>&); // initialize players
+		Round(int, vector<Player>&, unordered_map<int, int>&, unordered_map<int, int>&);
 		~Round();
+		void play(unordered_map<int, int>&, unordered_map<int, int>&);
 		void deal(int); // for each player, deal 2 cards
 		void flop();
         void ante(unordered_map<int, int>&, unordered_map<int, int>&);

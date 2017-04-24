@@ -17,6 +17,27 @@ Round::Round(int n, unordered_map<int, int> &flushes, unordered_map<int, int> &o
     numPlayers = n;
     playersLeft = numPlayers;
     
+	/* play round */
+	play(flushes, others);
+}
+
+Round::Round(int num, vector<Player>& players, unordered_map<int, int>& flushes, unordered_map<int, int>& others) {
+	
+	numPlayers = num;
+	playersLeft = numPlayers;
+
+	//play round
+	play(flushes, others);
+
+	//assign playerVec to players so the cash values of the vector are carried over
+	players = playerVec;
+
+}
+
+Round::~Round() { };
+
+
+void Round::play(unordered_map<int, int>& flushes, unordered_map<int, int>& others) {
 
 	/* first step: deal cards to each player, determine who's in and out*/
 	deal(numPlayers);
@@ -63,8 +84,6 @@ Round::Round(int n, unordered_map<int, int> &flushes, unordered_map<int, int> &o
         cout << "Why are you even playing if you all fold in pre-flop!?!?" << endl;
 
 }
-
-Round::~Round() { };
 
 void Round::deal(int num) {
 	// create temp_player, assign 2 cards and add temp_player to vector
@@ -121,17 +140,17 @@ void Round::determine_winner(vector<Player> players, unordered_map<int, int>& fl
             winning_rank = it->best_rank;
     }
     
-    int numberOfWinner = 0;
+    int numberOfWinners = 0;
     
     // print out players with highest rank
     for (auto it = players.begin(); it != players.end(); it++) {
         if (it->in_out && it->best_rank == winning_rank) {
             cout << "player" << it->playerNum << " wins" << endl;
-            numberOfWinner++;
+            numberOfWinners++;
         }
     }
 
-    int split_pot = potBalance/numberOfWinner;
+    int split_pot = potBalance/numberOfWinners;
 
     // add balance to winning player(s)
     for (auto it = players.begin(); it != players.end(); it++) {
@@ -313,7 +332,7 @@ void Round::betting_round(unordered_map<int, int> &flushes, unordered_map<int, i
                 it++;
                 if (it == playerVec.end()) // ensure that the it goes around the table
                     it = playerVec.begin();
-                if (it == start_it)
+                if (it == start_it || playersLeft == 1) //check if over
                     settled = true;
             }
 
@@ -321,7 +340,7 @@ void Round::betting_round(unordered_map<int, int> &flushes, unordered_map<int, i
             it++;
             if (it == playerVec.end()) // ensure it goes around the table
                 it = playerVec.begin();
-            if (it == start_it)
+            if (it == start_it || playersLeft == 1) //check if over
                 settled = true;
         }
     }

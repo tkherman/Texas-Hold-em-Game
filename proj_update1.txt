@@ -83,3 +83,41 @@ algorithm to sort each string in the text file, we were able to create an STL
 map that takes in a hand (represented by a 5 character string like "369JA") as
 its key and has the rank of the card as its value.  We plan on using these 
 values to compare cards.
+
+_____________________________________
+April 18 Update:
+
+We have made significant progress since the previous update three weeks ago.
+Our first major advancement was figuring out how to compare the rankings of
+poker hands.  To do so, we expanded on our strategy of using the equivalence
+class text file.  However, instead of sorting strings, we instead used 
+multiplication by the first thirteen prime numbers for each card value in a hand
+since this is gauranteed to produce a different result for each equivalence 
+class of hands (excluding flushes).  The result of this prime multiplication
+is used as the key in an STL unordered_map with the correct equivalence class 
+ranking as the corresponding value.  To deal with flushes, we keep separate
+maps for flushes and others and look through all 5 cards in a hand to see if
+the suits all match (a flush) in order to know which map to look in to get the
+ranking.  Since in Texas Hold-em, each player has 2 cards with 5 community cards
+out, each player has 21 possible hands.  To determine the best of these 21, we
+iteratively look through each of the 21 hands and store the best ranking as
+the player's score.  In the overall gameplay, the result of the function that
+determine's a plater's best hand used to determine the winner of a round of
+poker.
+The next significant advancement we have made is to the ability to accurately
+and efficiently calculate the odds that a specific player will win a hand
+at any point in the hand (obviously assuming that this player does not know
+every hand out on the board).  Since a complete enumeration of all possible 
+round outcomes is not realistic (and extremely computationally intensive) given 
+the massive number of possible outcomes, we opted to perform a Monte Carlo
+simulation by randomizing the unknown cards (community cards not played yet and
+cards of players still in) and determining if the player wins over and over.
+With enough simulations, we calculate a very accurate approximation of the
+statistical odds of winning.
+At this point, we are unsure of where to go next, so we definitely need to meet
+with Prof. Scott since he is at least vaguely familiar with our project and
+progress.  We are hopefully close to implementing betting and having a fully
+functional command line tool, but this is clearly not enough for a a final
+project in this class.  However, we have both spent over 18 hours on the project,
+so we need to find somewhere to go that will not require us to spend a 
+ridiculous amount of additional time in the next two weeks.
