@@ -9,6 +9,7 @@
 int main() {
 	unordered_map<int, int> flushes, others;
     loadHandData(flushes, others);
+	cout << flushes.size() << endl;
     //Round r(3, flushes, others);
 
 	/*testing second constructor*/

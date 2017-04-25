@@ -6,6 +6,7 @@
 #include <vector>
 #include "CardDeck.h"
 #include "Round.h"
+#include "handTable.h"
 
 #ifndef GAME_H
 #define GAME_H
@@ -17,10 +18,12 @@ class Game{
         Game();
         ~Game();
         void playRound();
+		vector<Player> createPlayerVector(int);
 
     private:
         int numPlayers;
 		vector<Player> players;
+		unordered_map<int, int> flushes, others;
 };
 
 #endif

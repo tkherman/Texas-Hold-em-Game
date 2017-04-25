@@ -1,10 +1,21 @@
-# This makefile test the Round class
+#Makefile
 
-test_exec: test_round.o Round.o CardDeck.o handTable.o oddCalc.o
+all: test_game test_round
+
+test_game: test_game.o Game.o Round.o CardDeck.o handTable.o oddCalc.o
+	g++ -std=c++11 -o $@ $^
+
+test_game.o: test_game.cpp
+	g++ -c -std=c++11 -o $@ $^
+
+Game.o: Game.cpp Game.h
+	g++ -c -std=c++11 -o $@ Game.cpp
+
+test_round: test_round.o Round.o CardDeck.o handTable.o oddCalc.o
 	g++ -std=c++11 -o $@ $^
 
 test_round.o: test_round.cpp
-	g++ -c -std=c++11 -o $@ test_round.cpp
+	g++ -c -std=c++11 -o $@ $^
 
 Round.o: Round.cpp Round.h CardDeck.h 
 	g++ -c -std=c++11 -o $@ Round.cpp
@@ -19,4 +30,4 @@ oddCalc.o: oddCalc.cpp oddCalc.h
 	g++ -c -std=c++11 -o $@ oddCalc.cpp
 
 clean:
-	rm -rf *.o test_exec
+	rm -rf *.o test_round test_game
