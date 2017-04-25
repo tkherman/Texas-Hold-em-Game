@@ -18,15 +18,18 @@ Round::Round(int n, unordered_map<int, int> &flushes, unordered_map<int, int> &o
     playersLeft = numPlayers;
     
 	/* play round */
+	deal(numPlayers);
 	play(flushes, others);
 }
 
+//to be used in game class
 Round::Round(int num, vector<Player>& players, unordered_map<int, int>& flushes, unordered_map<int, int>& others) {
 	
 	numPlayers = num;
 	playersLeft = numPlayers;
 
 	//play round
+	dealToExisting(players);
 	play(flushes, others);
 
 	//assign playerVec to players so the cash values of the vector are carried over
@@ -39,8 +42,7 @@ Round::~Round() { };
 
 void Round::play(unordered_map<int, int>& flushes, unordered_map<int, int>& others) {
 
-	/* first step: deal cards to each player, determine who's in and out*/
-	deal(numPlayers);
+	/* first step: determine who's in and out*/
     ante(flushes, others);
 
 
@@ -90,6 +92,18 @@ void Round::deal(int num) {
 	for (int i = 0; i < num; i++) {
 		Player temp_player;
 		temp_player.playerNum = i;
+		temp_player.hand[0] = deck.getCard();
+		temp_player.hand[1] = deck.getCard();
+		temp_player.in_out = true;
+		playerVec.push_back(temp_player);
+	}
+}
+
+void Round::dealToExisting(vector<Player>& players) {
+	// create temp_player, assign 2 cards and add temp_player to vector
+	for (auto it = players.begin(); it != players.end(); it++) {
+		Player temp_player;
+		temp_player.playerNum = it->playerNum;
 		temp_player.hand[0] = deck.getCard();
 		temp_player.hand[1] = deck.getCard();
 		temp_player.in_out = true;

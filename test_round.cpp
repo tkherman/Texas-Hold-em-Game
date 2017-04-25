@@ -11,8 +11,16 @@ int main() {
     loadHandData(flushes, others);
     //Round r(3, flushes, others);
 
-	//testing second constructor
+	/*testing second constructor*/
 	vector<Player> players;
+	//load player vector with numbers
+	for(int k=0; k<3; k++) {
+		Player temp;
+		temp.playerNum = k;
+		players.push_back(temp);
+	}
+
+
 	Round rnd(3, players, flushes, others);
 
 	//test if player vec was changed (this was successful)

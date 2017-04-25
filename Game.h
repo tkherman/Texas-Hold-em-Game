@@ -20,6 +20,7 @@ class Game{
 
     private:
         int numPlayers;
+		vector<Player> players;
 };
 
 #endif

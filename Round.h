@@ -39,6 +39,7 @@ class Round {
 		~Round();
 		void play(unordered_map<int, int>&, unordered_map<int, int>&);
 		void deal(int); // for each player, deal 2 cards
+		void dealToExisting(vector<Player>&); //for use in Game class
 		void flop();
         void ante(unordered_map<int, int>&, unordered_map<int, int>&);
         void betting_round(unordered_map<int, int>&, unordered_map<int, int>&);
