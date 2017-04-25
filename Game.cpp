@@ -56,6 +56,8 @@ Game::Game() {
 		cout << endl << "----Round Over----" << endl << endl;
 
 	} while(numPlayers >= 2);
+
+	cout << "Game over. Player " << players[0].playerNum << " wins!" << endl;
 }
 
 //deconstructor
