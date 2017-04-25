@@ -17,7 +17,7 @@ using namespace std;
 
 #define ANTE 5
 #define FIXED_LIMIT 20
-#define RAISE_CAP 4
+#define RAISE_CAP 2
 
 
 typedef enum {
@@ -48,7 +48,7 @@ class Round {
 		void print_players(int);
 
 
-		void determine_winner(vector<Player>, unordered_map<int, int>&, 
+		void determine_winner(/*vector<Player>,*/ unordered_map<int, int>&, 
 			unordered_map<int, int>&);
 
 		

@@ -74,7 +74,7 @@ void Round::play(unordered_map<int, int>& flushes, unordered_map<int, int>& othe
     
     // determine winner
     if (playersLeft > 1)
-        determine_winner(playerVec, flushes, others);
+        determine_winner(flushes, others);
     else if (playersLeft == 1) {
         for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
             if (it->in_out) {
@@ -84,6 +84,7 @@ void Round::play(unordered_map<int, int>& flushes, unordered_map<int, int>& othe
         }
     } else
         cout << "Why are you even playing if you all fold in pre-flop!?!?" << endl;
+
 
 }
 
@@ -136,12 +137,12 @@ void Round::print_players(int playerN) {
 	cout << endl;
 }
 
-void Round::determine_winner(vector<Player> players, unordered_map<int, int>& flushes, 
+void Round::determine_winner(unordered_map<int, int>& flushes, 
 		unordered_map<int, int>& others) {
 
 
     // find the max prime of players that are still in
-    for (auto it = players.begin(); it != players.end(); it++) {
+    for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
         if (it->in_out) 
         	it->best_rank = determine_best_rank(it->hand, communityVec, flushes, others);
     }
@@ -149,7 +150,7 @@ void Round::determine_winner(vector<Player> players, unordered_map<int, int>& fl
 
     // determine the highest rank
     int winning_rank = MAX_RANK;
-    for (auto it = players.begin(); it != players.end(); it++) {
+    for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
         if (it->in_out && it->best_rank < winning_rank) 
             winning_rank = it->best_rank;
     }
@@ -157,7 +158,7 @@ void Round::determine_winner(vector<Player> players, unordered_map<int, int>& fl
     int numberOfWinners = 0;
     
     // print out players with highest rank
-    for (auto it = players.begin(); it != players.end(); it++) {
+    for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
         if (it->in_out && it->best_rank == winning_rank) {
             cout << "player" << it->playerNum << " wins" << endl;
             numberOfWinners++;
@@ -167,7 +168,7 @@ void Round::determine_winner(vector<Player> players, unordered_map<int, int>& fl
     int split_pot = potBalance/numberOfWinners;
 
     // add balance to winning player(s)
-    for (auto it = players.begin(); it != players.end(); it++) {
+    for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
         if (it->in_out && it->best_rank == winning_rank) {
             it->cash_balance += split_pot;
         }
@@ -228,7 +229,7 @@ void Round::betting_round(unordered_map<int, int> &flushes, unordered_map<int, i
 
     options = betting;
     int betInRound = 0;
-    int raise_no = 0;
+    int raise_no = 1;
 
     vector<Player>::iterator start_it = playerVec.begin();
     vector<Player>::iterator it = playerVec.begin();
