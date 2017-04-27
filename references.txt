@@ -1,0 +1,10 @@
+This is a list of sites that we have referenced to:
+
+
+The algorithm behind the simple AI follows the following website:
+http://cowboyprogramming.com/2007/01/04/programming-poker-ai/
+
+The rankings.dat come from:
+http://www.rpbridge.net/d/pkh.dta
+
+
