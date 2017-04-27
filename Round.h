@@ -9,7 +9,6 @@
 #include "CardDeck.h"
 #include "handTable.h"
 #include "oddCalc.h"
-#include "AI_player.h"
 
 using namespace std;
 
