@@ -61,6 +61,7 @@ struct Player {
     bool in_out;
     int best_rank;
     int cash_balance;
+    bool computer;
 
     Player() {
         in_out = true;

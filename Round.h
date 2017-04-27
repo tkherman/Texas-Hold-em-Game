@@ -9,6 +9,7 @@
 #include "CardDeck.h"
 #include "handTable.h"
 #include "oddCalc.h"
+#include "AI_player.h"
 
 using namespace std;
 
@@ -41,9 +42,8 @@ class Round {
 		void deal(int); // for each player, deal 2 cards
 		void dealToExisting(vector<Player>&); //for use in Game class
 		void flop();
-        void ante(unordered_map<int, int>&, unordered_map<int, int>&);
-        void betting_round(unordered_map<int, int>&, unordered_map<int, int>&);
-        //void raising(int, int, unordered_map<int, int>&, unordered_map<int, int>&);
+        //void ante(unordered_map<int, int>&, unordered_map<int, int>&);
+        void betting_round(bool, unordered_map<int, int>&, unordered_map<int, int>&);
 		void print_community();
 		void print_players(int);
 

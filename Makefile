@@ -2,7 +2,7 @@
 
 all: test_game test_round
 
-test_game: test_game.o Game.o Round.o CardDeck.o handTable.o oddCalc.o
+test_game: test_game.o Game.o Round.o CardDeck.o handTable.o oddCalc.o #AI_player.o
 	g++ -std=c++11 -o $@ $^
 
 test_game.o: test_game.cpp
@@ -28,6 +28,9 @@ handTable.o: handTable.cpp handTable.h
 
 oddCalc.o: oddCalc.cpp oddCalc.h
 	g++ -c -std=c++11 -o $@ oddCalc.cpp
+
+#AI_player.o: AI_player.cpp AI_player.h
+#    g++ -c -std=c++11 -o $@ AI_player.cpp
 
 clean:
 	rm -rf *.o test_round test_game

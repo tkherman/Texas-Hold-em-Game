@@ -10,10 +10,12 @@ Game::Game() {
 	//ask user for number of players
 
 	numPlayers = 0; //initialize out of bounds
-	cout << "How many players? ";
+	cout << "How many computer players? ";
 	cin >> numPlayers;
+    numPlayers++; // add one extra for actual player
+
 	//check for failure
-	if(!cin) {
+	/*if(!cin) {
 		cin.clear();
 		cin.ignore(999, '\n');
 	}
@@ -24,7 +26,7 @@ Game::Game() {
 			cin.clear();
 			cin.ignore(999, '\n');
 		}
-	}
+	}*/
 	
 	//load player vector
 	players = createPlayerVector(numPlayers);
@@ -65,9 +67,14 @@ Game::~Game() {}
 
 vector<Player> Game::createPlayerVector(int num) {
 	vector<Player> result;
-	for(int k=0; k < num; k++) {
+    Player human;
+    human.playerNum = 0;
+    human.computer = false;
+    result.push_back(human);
+	for(int k=1; k < num; k++) {
 		Player temp;
 		temp.playerNum = k;
+        temp.computer = true;
 		result.push_back(temp);
 	}
 	return result;
