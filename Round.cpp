@@ -26,6 +26,7 @@ Round::Round(int n, unordered_map<int, int> &flushes, unordered_map<int, int> &o
 Round::Round(int num, vector<Player>& players, unordered_map<int, int>& flushes, unordered_map<int, int>& others) {
 	
 	numPlayers = num;
+	potBalance = 0;
 	playersLeft = numPlayers;
 
 	//play round
@@ -81,7 +82,7 @@ void Round::play(unordered_map<int, int>& flushes, unordered_map<int, int>& othe
     else if (playersLeft == 1) {
         for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
             if (it->in_out) {
-                cout << "player" << it->playerNum << " wins" << endl;
+                cout << "Player" << it->playerNum << " wins" << endl;
                 it->cash_balance += potBalance;
             }
         }
@@ -112,6 +113,7 @@ void Round::dealToExisting(vector<Player>& players) {
 		temp_player.hand[1] = deck.getCard();
 		temp_player.in_out = true;
         temp_player.computer = it->computer;
+		temp_player.cash_balance = it->cash_balance;
 		playerVec.push_back(temp_player);
 	}
 }
@@ -217,7 +219,7 @@ void Round::determine_winner(unordered_map<int, int>& flushes,
     // print out players with highest rank
     for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
         if (it->in_out && it->best_rank == winning_rank) {
-            cout << "player" << it->playerNum << " wins" << endl;
+            cout << "Player" << it->playerNum << " wins" << endl;
             numberOfWinners++;
         }
     }
@@ -276,7 +278,7 @@ void Round::betting_round(bool ante, unordered_map<int, int> &flushes, unordered
                 cout << "You have $" << it->cash_balance << endl;
                 cout << "Total amount in pot $" << potBalance << endl;
             } else {
-                cout << "Player" << it->playerNum << "has $" << it->cash_balance << endl;
+                cout << "Player" << it->playerNum << " has $" << it->cash_balance << endl;
             }
 
             if (options == betting) {
