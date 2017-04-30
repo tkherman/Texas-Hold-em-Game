@@ -212,20 +212,73 @@ void Round::flop() {
 
 // This function prints out the community cards
 void Round::print_community() {
-	cout << "-------Community Cards---------" << endl;
-	for (auto it = communityVec.begin(); it != communityVec.end(); it++) {
+	// clear screen by printing 100 newline
+    for (int i = 0; i < 10; i++) {
+        printf("\n\n\n\n\n\n\n\n\n\n");
+    }
+    
+    // create a vector for cards to be printed
+    vector<Card> printingVec = communityVec;
+    while (printingVec.size() < 5) {
+        Card tempC;
+        tempC.charVal = ' ';
+        tempC.suitIcon = ' ';
+        printingVec.push_back(tempC);
+    }
+    cout << "---------------Community Cards-----------------" << endl;
+	char stringToBePrinted[700];
+    sprintf(stringToBePrinted,
+    " -----------   -----------   -----------   -----------   ----------- \n\
+|%c%c         | |%c%c         | |%c%c         | |%c%c         | |%c%c         |\n\
+|           | |           | |           | |           | |           |\n\
+|           | |           | |           | |           | |           |\n\
+|     %c     | |      %c    | |     %c     | |     %c     | |     %c     |\n\
+|           | |           | |           | |           | |           |\n\
+|           | |           | |           | |           | |           |\n\
+|         %c%c| |         %c%c| |         %c%c| |         %c%c| |         %c%c|\n\
+ -----------   -----------   -----------   -----------   ----------- " 
+    , printingVec[0].charVal, printingVec[0].suitIcon, printingVec[1].charVal, printingVec[1].suitIcon
+    , printingVec[2].charVal, printingVec[2].suitIcon, printingVec[3].charVal, printingVec[3].suitIcon
+    , printingVec[4].charVal, printingVec[4].suitIcon
+    , printingVec[0].suitIcon, printingVec[1].suitIcon, printingVec[2].suitIcon, printingVec[3].suitIcon
+    , printingVec[4].suitIcon
+    , printingVec[0].charVal, printingVec[0].suitIcon, printingVec[1].charVal, printingVec[1].suitIcon
+    , printingVec[2].charVal, printingVec[2].suitIcon, printingVec[3].charVal, printingVec[3].suitIcon
+    , printingVec[4].charVal, printingVec[4].suitIcon
+    );
+    printf("%s", stringToBePrinted);
+
+    
+    /*for (auto it = communityVec.begin(); it != communityVec.end(); it++) {
 		it->display();
 		cout << " || ";
-	}
+	}*/
+    
+
 	cout << endl << endl << endl;
 }
 
 void Round::print_players(int playerN) {
 	cout << "player" << playerN << ":" << endl;
-	playerVec[playerN].hand[0].display();
-	cout << endl;
-	playerVec[playerN].hand[1].display();
-	cout << endl;
+    char stringToBePrinted[300];
+    sprintf(stringToBePrinted,
+    " -----------   ----------- \n\
+|%c%c         | |%c%c         |\n\
+|           | |           |\n\
+|           | |           |\n\
+|     %c     | |      %c    |\n\
+|           | |           |\n\
+|           | |           |\n\
+|         %c%c| |         %c%c|\n\
+ -----------   ----------- " 
+    , playerVec[playerN].hand[0].charVal, playerVec[playerN].hand[0].suitIcon
+    , playerVec[playerN].hand[1].charVal, playerVec[playerN].hand[1].suitIcon
+    , playerVec[playerN].hand[0].suitIcon, playerVec[playerN].hand[1].suitIcon
+    , playerVec[playerN].hand[0].charVal, playerVec[playerN].hand[0].suitIcon
+    , playerVec[playerN].hand[1].charVal, playerVec[playerN].hand[1].suitIcon
+    );
+    printf("%s", stringToBePrinted);
+    cout << endl;
 }
 
 void Round::determine_winner(unordered_map<int, int>& flushes, 

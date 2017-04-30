@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <string>
 #include <unordered_map>
+#include <cstdio>
 #include "CardDeck.h"
 #include "handTable.h"
 #include "oddCalc.h"

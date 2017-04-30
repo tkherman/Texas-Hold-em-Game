@@ -12,12 +12,29 @@ using namespace std;
 CardDeck::CardDeck() {
 	Card tempC;
 	char suits[] = {'d', 'c', 'h', 's'};
+    char suitIcons[] = {'O', '+', '#', '@'};
     unsigned int prime[] = {0, 41, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
 
 	for (int val = 1; val <= 13; val++) {
-		for (const auto &suit: suits) {
+		for (int i = 0; i < 4; i++) {
 			tempC.value = val;
-			tempC.suit = suit;
+			tempC.suit = suits[i];
+            tempC.suitIcon = suitIcons[i];
+            
+            if (val == 1) 
+                tempC.charVal = 'A';
+            else if (val == 13)
+                tempC.charVal = 'K';
+            else if (val == 12)
+                tempC.charVal = 'Q';
+            else if (val == 11)
+                tempC.charVal = 'J';
+            else if (val == 10)
+                tempC.charVal = 'T';
+            else
+                tempC.charVal = (char)val + '0';
+
+            
             tempC.prime_value = prime[val];
 
 			deck.push_back(tempC);

@@ -11,7 +11,9 @@ using namespace std;
 
 struct Card{
 	unsigned int value;
+    char charVal;
 	char suit;
+    char suitIcon;
     int prime_value;
 	void display() {
 		
