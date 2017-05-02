@@ -61,13 +61,15 @@ struct Player {
     Card hand[2];
     int playerNum;
     bool in_out;
+	bool all_in;
     int best_rank;
-    int cash_balance;
+    double cash_balance;
     bool computer;
 
     Player() {
         in_out = true;
-        cash_balance = 200;
+		all_in = false;
+        cash_balance = 100.;
     }
 };
 

@@ -39,7 +39,7 @@ Game::Game() {
 		playRound();
 
 		//check if anyone's out of cash
-		cout << "------------" << endl;
+		cout << "\n------------" << endl;
 		for(int k=0; k<players.size(); k++) {
 			
 			//display each player's total after the round
@@ -49,8 +49,12 @@ Game::Game() {
 			//if anyone's out of money, remove them from the game
 			if(players[k].cash_balance <= 0) {
 				cout << "Player " << players[k].playerNum << " eliminated." << endl;
+				
+				//fix this - messes up the order
 				players[k] = players[players.size()-1];
+
 				players.pop_back();
+				k--; //change the loop condition to deal w/pop back
 				numPlayers--;
 			}
 
@@ -81,6 +85,5 @@ vector<Player> Game::createPlayerVector(int num) {
 }
 
 void Game::playRound() {
-	cout << flushes.size() << endl;
 	Round r(numPlayers, players, flushes, others);
 }

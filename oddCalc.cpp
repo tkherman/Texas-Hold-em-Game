@@ -12,6 +12,7 @@ int determine_best_rank(Card hand[2], vector<Card> community,
     vector<Card> poss_comb = community;
     poss_comb.push_back(hand[0]);
     poss_comb.push_back(hand[1]);
+
     
     // initialize ranking to lowest
     int rank = MAX_RANK;

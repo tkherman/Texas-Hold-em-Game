@@ -52,6 +52,9 @@ class Round {
 		void determine_winner(/*vector<Player>,*/ unordered_map<int, int>&, 
 			unordered_map<int, int>&);
 
+		int getNumAllIn();
+		int getNumAtRank(int);
+
 		
 	private:
 		vector<Player> playerVec;
@@ -59,7 +62,9 @@ class Round {
 		int numPlayers;
 		int playersLeft;
 		CardDeck deck;
-        int potBalance;
+        double potBalance;
+        double owedToPot;
+		double potArr[8];
 };
 
 #endif

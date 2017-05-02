@@ -1,2 +1,2 @@
-1) players can get a negative balance
-2) something is funny about the elimination part
+1) need to normalize the handStrength when RR goes to INF
+2) game class starts betting with same player every hand

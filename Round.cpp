@@ -16,6 +16,10 @@ Round::Round(int n, unordered_map<int, int> &flushes, unordered_map<int, int> &o
 	/* initialize variables */
     numPlayers = n;
     playersLeft = numPlayers;
+	potBalance = 0;
+    owedToPot = 0;
+
+    for(int k=0; k<8; k++) potArr[k] = 0;
     
 	/* play round */
 	deal(numPlayers);
@@ -27,7 +31,11 @@ Round::Round(int num, vector<Player>& players, unordered_map<int, int>& flushes,
 	
 	numPlayers = num;
 	potBalance = 0;
+    owedToPot = 0;
 	playersLeft = numPlayers;
+
+    for(int k=0; k<8; k++) potArr[k] = 0;
+
 
 	//play round
 	dealToExisting(players);
@@ -39,6 +47,13 @@ Round::Round(int num, vector<Player>& players, unordered_map<int, int>& flushes,
 }
 
 Round::~Round() { };
+
+int Round::getNumAllIn() {
+    int result = 0;
+    for(auto it = playerVec.begin(); it != playerVec.end(); ++it)
+        if(it->all_in) result++;
+    return result;
+}
 
 
 void Round::play(unordered_map<int, int>& flushes, unordered_map<int, int>& others) {
@@ -56,7 +71,8 @@ void Round::play(unordered_map<int, int>& flushes, unordered_map<int, int>& othe
 			flop();
 		}
 		print_community();
-        betting_round(false, flushes, others);
+        if(playersLeft - getNumAllIn() > 1)
+            betting_round(false, flushes, others);
 	}
 	
 
@@ -64,7 +80,8 @@ void Round::play(unordered_map<int, int>& flushes, unordered_map<int, int>& othe
 	if (playersLeft > 1) {
 		flop();
 		print_community();
-        betting_round(false, flushes, others);
+        if(playersLeft - getNumAllIn() > 1)
+            betting_round(false, flushes, others);
 	}
 	
 
@@ -73,7 +90,8 @@ void Round::play(unordered_map<int, int>& flushes, unordered_map<int, int>& othe
 	if (playersLeft > 1) {
 		flop();
 		print_community();
-        betting_round(false, flushes, others);
+        if(playersLeft - getNumAllIn() > 1)
+            betting_round(false, flushes, others);
 	}
     
     // determine winner
@@ -82,7 +100,7 @@ void Round::play(unordered_map<int, int>& flushes, unordered_map<int, int>& othe
     else if (playersLeft == 1) {
         for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
             if (it->in_out) {
-                cout << "Player" << it->playerNum << " wins" << endl;
+                cout << "Player" << it->playerNum << " wins!" << endl;
                 it->cash_balance += potBalance;
             }
         }
@@ -127,10 +145,8 @@ void Round::flop() {
 
 // This function prints out the community cards
 void Round::print_community() {
-	// clear screen by printing 100 newline
-    for (int i = 0; i < 10; i++) {
-        printf("\n\n\n\n\n\n\n\n\n\n");
-    }
+
+    cout << "\n\n\n";
     
     // create a vector for cards to be printed
     vector<Card> printingVec = communityVec;
@@ -207,24 +223,88 @@ void Round::determine_winner(unordered_map<int, int>& flushes,
     }
     
 
-    // determine the highest rank
-    int winning_rank = MAX_RANK;
+    // determine the number of players all in
+    int numAllIn = 0;
     for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
-        if (it->in_out && it->best_rank < winning_rank) 
-            winning_rank = it->best_rank;
+        if (it->all_in)
+            numAllIn++;
     }
     
-    int numberOfWinners = 0;
+    
     
     // print out players with highest rank
-    for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
+    int numberOfWinners, winning_rank;
+    bool processing = true;
+    vector<Player>::iterator start_it = playerVec.begin();
+    vector<Player>::iterator it = playerVec.begin();
+
+
+
+    numberOfWinners = 0;
+    do {
+        if(potBalance <= 0) break; //done checking who won - all money given out
+
+        //determine the highest rank
+        winning_rank = MAX_RANK;
+        for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
+            if (it->in_out && it->best_rank < winning_rank) 
+                winning_rank = it->best_rank;
+        }
+
         if (it->in_out && it->best_rank == winning_rank) {
             cout << "Player" << it->playerNum << " wins" << endl;
-            numberOfWinners++;
-        }
-    }
 
-    int split_pot = potBalance/numberOfWinners;
+            //check if all in
+            if(it->all_in) {
+                
+
+                //determine amount of winnings
+
+                //initialize to equal pot balance
+                double winnings = potBalance;
+                for(auto ptr = playerVec.begin(); ptr != playerVec.end(); ++ptr) {
+                    if(ptr->in_out) {
+                        double amt = potArr[it->playerNum] - potArr[ptr->playerNum];
+                        if(amt > 0) winnings -= amt;
+                    }
+                }
+
+
+                ////TESTING THIS!!!!!!
+                //double winnings = potBalance * potArr[it->playerNum] / (1.0 * getNumAtRank(it->best_rank) * owedToPot);
+
+
+
+
+                //it->cash_balance += potArr[it->playerNum];
+                it->cash_balance += winnings;
+                cout << "All in, so Player" << it->playerNum << " wins ";
+                cout << winnings << endl;
+                numAllIn--;
+
+
+
+                //adjust pot balance and make player out
+                //potBalance -= potArr[it->playerNum];
+                potBalance -= winnings;
+                numberOfWinners--;
+                it->in_out = false;
+                it->all_in = false; //accounted for, so set to false
+
+                //reset start_it
+                start_it = it;
+            }
+
+            numberOfWinners++;
+        } 
+        //increment it
+        ++it;
+        if(it == playerVec.end()) it = playerVec.begin();
+
+    } while(it != start_it);
+
+
+    double split_pot = potBalance/numberOfWinners;
 
     // add balance to winning player(s)
     for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
@@ -235,14 +315,19 @@ void Round::determine_winner(unordered_map<int, int>& flushes,
 
 }
 
+int Round::getNumAtRank(int rank) {
+    int result = 0;
+    for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
+        if (it->best_rank == rank) {
+            result++;
+        }
+    }
+    return result;
+}
+
 
 void Round::betting_round(bool ante, unordered_map<int, int> &flushes, unordered_map<int, int> &others) {
     string input;
-    
-    int potArr[numPlayers];
-    // initialize potArr to all 0
-    for (int i = 0; i < numPlayers; i++)
-        potArr[i] = 0;
 
     bool settled = false; // flag to see if we've gone around the table
     bool outer_increment;
@@ -257,12 +342,36 @@ void Round::betting_round(bool ante, unordered_map<int, int> &flushes, unordered
 
     if (ante == true) { // deduct ante from everyone
         for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
-            it->cash_balance -= ANTE;
-            potBalance += ANTE;
+
+            //check for out of money
+            if(it->cash_balance <= ANTE) {
+                potBalance += it->cash_balance;
+                owedToPot += ANTE; //payed less than owed
+                potArr[it->playerNum] += it->cash_balance;
+                it->cash_balance = 0;
+                it->all_in = true;
+
+            } else {
+                it->cash_balance -= ANTE;
+                potArr[it->playerNum] += ANTE;
+                potBalance += ANTE;
+                owedToPot += ANTE; //paid what owed
+            }
+
+            
+            
         }
     }
 
+    //actual value of this doesn't matter - just the diff w/ potArr
+    //so initialize to the max of potArr
     int betInRound = 0;
+    for(auto it = playerVec.begin(); it != playerVec.end(); ++it) {
+        if(potArr[it->playerNum] > betInRound)
+            betInRound = potArr[it->playerNum];
+    }
+    int origInRound = betInRound;
+
     int raise_no = 1;
 
     vector<Player>::iterator start_it = playerVec.begin();
@@ -270,10 +379,15 @@ void Round::betting_round(bool ante, unordered_map<int, int> &flushes, unordered
 
     while(!settled) {
         outer_increment = true;
-        if (it->in_out) {
+        
+            
+
+        if (it->in_out && !it->all_in) {
             // do this printing if player isn't computer
             if (it->computer == false) {
+				
                 print_players(it->playerNum);
+
                 cout << "Chance of winning: " << getOdds(it->hand, communityVec, flushes, others, numPlayers) << endl;
                 cout << "You have $" << it->cash_balance << endl;
                 cout << "Total amount in pot $" << potBalance << endl;
@@ -290,7 +404,7 @@ void Round::betting_round(bool ante, unordered_map<int, int> &flushes, unordered
                         cin >> input;
                     } else {
                         double handstrength = getOdds(it->hand, communityVec, flushes, others, numPlayers);
-                        int AI_decision = AI_determine(handstrength, betInRound, potBalance);
+                        int AI_decision = AI_determine(handstrength, betInRound - origInRound, potBalance);
                         if (AI_decision == 0) {
                             input = "fold";
                             cout << "Player" << it->playerNum << " folds" << endl;
@@ -315,28 +429,45 @@ void Round::betting_round(bool ante, unordered_map<int, int> &flushes, unordered
                             corr_input = true;
                             break;
                         case bet:
-                            it->cash_balance -= FIXED_LIMIT;
-                            potArr[it->playerNum] += FIXED_LIMIT;
-                            potBalance += FIXED_LIMIT;
-                            betInRound += FIXED_LIMIT;
-                            cout << "Putting in: $" << FIXED_LIMIT << endl;
+                        {
+                            //check for out of money
+                            if(it->cash_balance <= FIXED_LIMIT) {
+                                potBalance += it->cash_balance;
+                                owedToPot += FIXED_LIMIT; //paid less than owed
+                                betInRound += it->cash_balance;
+                                potArr[it->playerNum] += it->cash_balance;
+                                cout << "Putting in: $" << it->cash_balance << endl;
+                                cout << "Player" << it->playerNum << " is all in!\n";
+                                it->cash_balance = 0;
+                                it->all_in = true;
+                            }
+                            else {
+                                it->cash_balance -= FIXED_LIMIT;
+                                potArr[it->playerNum] += FIXED_LIMIT;
+                                potBalance += FIXED_LIMIT;
+                                owedToPot += FIXED_LIMIT; //paid what owed
+                                betInRound += FIXED_LIMIT;
+                                cout << "Putting in: $" << FIXED_LIMIT << endl;
+                            }
                             
                             // change start_it since it must go all the way around the table again
                             start_it = it;
                             it++;
                             if (it == playerVec.end())
                                 it = playerVec.begin();
+
                             outer_increment = false;
                             options = calling;
 
                             corr_input = true;
+                        }
                             break;
                         case raise:
-                            cout << "Invalid input, you can't raise since no one has bet" << endl;
+                            cout << "Invalid input, you can't raise since no one has bet." << endl;
                             break;
                         case call:
                         case invalid:
-                            cout << "Invalid input, please try again" << endl;
+                            cout << "Invalid input, please try again." << endl;
                             break;
                     }
                     cout << endl;
@@ -349,7 +480,7 @@ void Round::betting_round(bool ante, unordered_map<int, int> &flushes, unordered
                         cin >> input;
                     } else {
                         double handstrength = getOdds(it->hand, communityVec, flushes, others, numPlayers);
-                        int AI_decision = AI_determine(handstrength, betInRound, potBalance);
+                        int AI_decision = AI_determine(handstrength, betInRound - origInRound, potBalance);
                         if (AI_decision == 0) {
                             input = "fold";
                             cout << "Player" << it->playerNum << " folds" << endl;
@@ -376,37 +507,73 @@ void Round::betting_round(bool ante, unordered_map<int, int> &flushes, unordered
                             corr_input = true;
                             break;
                         case call:
+                        {
+
                             adding_amount = betInRound - potArr[it->playerNum];
-                            it->cash_balance -= adding_amount;
-                            potArr[it->playerNum] += adding_amount;
-                            potBalance += adding_amount;
-                            cout << "Putting in: $" << adding_amount << endl;
+
+                            //check for out of money
+                            if(it->cash_balance <= adding_amount) {
+                                potBalance += it->cash_balance;
+                                owedToPot += adding_amount; //paid less than owed
+                                potArr[it->playerNum] += it->cash_balance;
+                                cout << "Putting in: $" << it->cash_balance << endl;
+                                cout << "Player" << it->playerNum << " is all in!\n";
+                                it->cash_balance = 0;
+                                it->all_in = true;
+                            }
+                            else {
+                                it->cash_balance -= adding_amount;
+                                potArr[it->playerNum] += adding_amount;
+                                potBalance += adding_amount;
+                                owedToPot += adding_amount; //paid what owed
+                                //betInRound += adding_amount;
+                                cout << "Putting in: $" << adding_amount << endl;
+                            }
+
                             corr_input = true;
+                        }
                             break;
                         case raise:
                             // reached raise cap, ask for input again
                             if (raise_no > RAISE_CAP) {
                                 cout << "Reaching raise cap, cannot raise again. Please input "
                                     << "another  option." << endl;
-                            break;
+                                break;
                             }
 
-                            // deal with the money
+                            //deal with the money
                             adding_amount = betInRound - potArr[it->playerNum] + FIXED_LIMIT;
-                            it->cash_balance -= adding_amount;
-                            potArr[it->playerNum] += adding_amount;
-                            potBalance += adding_amount;
-                            cout << "Putting in: $ " << adding_amount << endl;
-                            betInRound += FIXED_LIMIT;
+
+                            //check for out of money
+                            if(it->cash_balance <= adding_amount) {
+                                potBalance += it->cash_balance;
+                                owedToPot += adding_amount; //paid less than owed
+                                betInRound += it->cash_balance;
+                                potArr[it->playerNum] += it->cash_balance;
+                                cout << "Putting in: $" << it->cash_balance << endl;
+                                cout << "Player" << it->playerNum << " is all in!\n";
+                                it->cash_balance = 0;
+                                it->all_in = true;
+                            }
+                            else {
+                                it->cash_balance -= adding_amount;
+                                potArr[it->playerNum] += adding_amount;
+                                potBalance += adding_amount;
+                                owedToPot += adding_amount; //paid what owed
+                                betInRound += FIXED_LIMIT;
+                                cout << "Putting in: $" << adding_amount << endl;
+                            }  
+
 
                             // change start_it since it must go all the way around the table again
                             start_it = it;
                             it++;
                             if (it == playerVec.end())
                                 it = playerVec.begin();
+
                             outer_increment = false;
 
-                            raise_no++;
+                            raise_no++; //increment raise count
                             corr_input = true;
                             break;
                         case bet:
@@ -428,6 +595,10 @@ void Round::betting_round(bool ante, unordered_map<int, int> &flushes, unordered
             }
 
         } else {
+
+            if (it->all_in) 
+                cout << "Player" << it->playerNum << " is all in" << endl;
+
             it++;
             if (it == playerVec.end()) // ensure it goes around the table
                 it = playerVec.begin();
