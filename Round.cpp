@@ -127,9 +127,9 @@ void Round::flop() {
 
 // This function prints out the community cards
 void Round::print_community() {
-	// clear screen by printing 100 newline
+	// clear screen by printing 10 newline
     for (int i = 0; i < 10; i++) {
-        printf("\n\n\n\n\n\n\n\n\n\n");
+        printf("\n");
     }
     
     // create a vector for cards to be printed

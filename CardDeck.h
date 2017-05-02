@@ -67,7 +67,7 @@ struct Player {
 
     Player() {
         in_out = true;
-        cash_balance = 200;
+        cash_balance = 600;
     }
 };
 

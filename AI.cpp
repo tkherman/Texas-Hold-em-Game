@@ -16,6 +16,7 @@ int AI_determine(double handStrength, int bet, int pot) {
     double sum = bet + pot;
     double potOdd = (double)bet/sum;
 
+
     // calculate rate of return
     double RR = handStrength/potOdd;
 
@@ -38,10 +39,10 @@ int AI_determine(double handStrength, int bet, int pot) {
     // generate a random number between 0-99
     int randNum = rand() % 100;
     
-    
-    // deals with the case when no one has bet
-    if (bet == 0) {
-        if (handStrength > 0.6)
+
+    /* deals with the case when no one has bet other rounds*/
+    if (potOdd == 0) {
+        if (handStrength > 0.5)
             if (randNum < 70)
                 return 2;
             else
@@ -68,20 +69,11 @@ int AI_determine(double handStrength, int bet, int pot) {
             return 1;
         else
             return 2;
-    } else if (RR < 100) { 
+    } else { 
         if (randNum < 30)
             return 1;
         else
             return 2;
-    } else { // case where no one has bet, RR would be inf
-        // > 38% chance of winning, 40% bet, 60% check
-        if (handStrength > 0.38)
-            if (randNum < 50)
-                return 2;
-            else 
-                return 1;
-        else
-            return 1;
-    }
+    } 
 
 }
