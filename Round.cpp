@@ -146,7 +146,10 @@ void Round::flop() {
 // This function prints out the community cards
 void Round::print_community() {
 
-    cout << "\n\n\n";
+	// clear screen by printing 10 newline
+    for (int i = 0; i < 10; i++) {
+        printf("\n");
+    }
     
     // create a vector for cards to be printed
     vector<Card> printingVec = communityVec;
