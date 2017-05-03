@@ -17,7 +17,9 @@ int AI_determine(double handStrength, int bet, int pot) {
     double potOdd = (double)bet/sum;
 
 
-    // calculate rate of return
+    /* calculate rate of return
+    RR measures how much the player may gain from betting 
+    */
     double RR = handStrength/potOdd;
 
     /* Now with the pot odd and rate of return, a decision can be made based
@@ -40,7 +42,9 @@ int AI_determine(double handStrength, int bet, int pot) {
     int randNum = rand() % 100;
     
 
-    /* deals with the case when no one has bet other rounds*/
+    /* deals with the case when no one has bet in the round
+    since bet = 0, potOdd will always be 0
+    */
     if (potOdd == 0) {
         if (handStrength < 0.15)
             if (randNum < 25)
