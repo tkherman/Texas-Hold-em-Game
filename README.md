@@ -5,7 +5,7 @@ calculation, ASCII graphics and AI players. It follows the fixed limited
 betting and ante rules.
 
 
-#### How hands are compared?
+## How hands are compared?
 
 It uses STL::unordered map to store precalculated ranking of each possible
 hands. The key for each hand is the prime multiplication of the cards and the
@@ -33,7 +33,7 @@ multiplication as the key.
 
 
 
-#### How are the odd calculated?
+## How are the odd calculated?
 
 We use the Monte Carlo approach to estimate the odds. When getOdds function is
 called, the program simulates how the game may end by dealing out cards to other
@@ -42,7 +42,7 @@ percentage of winning is the estimation of the odd.
 
 
 
-#### How the AI works?
+## How the AI works?
 
 The AI program utilizes the odd(hand strength) calculated by the getOdds
 function and the pot odd where
