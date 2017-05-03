@@ -15,7 +15,7 @@ Game::Game() {
     numPlayers++; // add one extra for actual player
 
 	//check for failure
-	/*if(!cin) {
+	if(!cin) {
 		cin.clear();
 		cin.ignore(999, '\n');
 	}
@@ -26,7 +26,7 @@ Game::Game() {
 			cin.clear();
 			cin.ignore(999, '\n');
 		}
-	}*/
+	}
 	
 	//load player vector
 	players = createPlayerVector(numPlayers);
