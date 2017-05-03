@@ -27,8 +27,8 @@ Game::Game() {
 			cin.ignore(999, '\n');
 		}
 	}
-	cin.clear(); cin.ignore(999, '\n');
 	
+
 	//load player vector
 	players = createPlayerVector(numPlayers);
 	

@@ -12,20 +12,6 @@ PlayerAction hashit(const string &input) {
     else return invalid;
 }
 
-Round::Round(int n, unordered_map<int, int> &flushes, unordered_map<int, int> &others) {
-	/* initialize variables */
-    numPlayers = n;
-    playersLeft = numPlayers;
-	potBalance = 0;
-    owedToPot = 0;
-
-    for(int k=0; k<8; k++) potArr[k] = 0;
-    
-	/* play round */
-	deal(numPlayers);
-	play(flushes, others);
-}
-
 //to be used in game class
 Round::Round(int num, vector<Player>& players, unordered_map<int, int>& flushes, unordered_map<int, int>& others) {
 	
