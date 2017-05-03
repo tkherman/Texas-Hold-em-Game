@@ -26,6 +26,7 @@ value is the ranking.
 
 Each card is represented by a struct which contains the value, suit, and prime
 number. The prime number is assigned according to the value of the card.
+
 A: 41  
 2: 2  
 3: 3  
