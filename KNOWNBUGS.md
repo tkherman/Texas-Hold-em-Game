@@ -1,3 +1,5 @@
-1) need to normalize the handStrength when RR goes to INF
-2) game class starts betting with same player every hand
-3) need to properly cite rankings list
+1) need to properly cite rankings list
+2) should probably show cards after a round ends (like if comparing
+	when nobody folds)
+3) add suits if possible
+4) further test AI

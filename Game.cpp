@@ -27,6 +27,7 @@ Game::Game() {
 			cin.ignore(999, '\n');
 		}
 	}
+	cin.clear(); cin.ignore(999, '\n');
 	
 	//load player vector
 	players = createPlayerVector(numPlayers);
@@ -36,11 +37,14 @@ Game::Game() {
 
 	//loop for playing rounds
 	do {
+		cout << "New Round" << endl;
+		cout << "----------------\n\n";
+
 		playRound();
 
 		//check if anyone's out of cash
 		cout << "\n------------" << endl;
-		for(int k=0; k<players.size(); k++) {
+		for(int k=0; k<numPlayers; k++) {
 			
 			//display each player's total after the round
 			cout << "Player " << players[k].playerNum << " has $";
@@ -50,9 +54,12 @@ Game::Game() {
 			if(players[k].cash_balance <= 0) {
 				cout << "Player " << players[k].playerNum << " eliminated." << endl;
 				
-				//fix this - messes up the order
-				players[k] = players[players.size()-1];
-
+				//remove player while preserving order
+				int index = k + 1, trail = k;
+				while(index < numPlayers) {
+					players[trail] = players[index];
+					index++; trail++;
+				}
 				players.pop_back();
 				k--; //change the loop condition to deal w/pop back
 				numPlayers--;
@@ -60,6 +67,13 @@ Game::Game() {
 
 		}
 		cout << endl << "----Round Over----" << endl << endl;
+		
+		cout << "Press enter to continue." << endl << endl;
+		cin.ignore(); cin.get();
+		for(int k=0; k<5; k++) cout << "\n\n\n\n\n\n\n\n\n\n";
+
+		//rotate players for next round
+		rotatePlayerVector();
 
 	} while(numPlayers >= 2);
 
@@ -86,4 +100,14 @@ vector<Player> Game::createPlayerVector(int num) {
 
 void Game::playRound() {
 	Round r(numPlayers, players, flushes, others);
+}
+
+void Game::rotatePlayerVector() {
+	int trail = 0, lead = 1;
+	Player temp = players[0];
+	while(lead < numPlayers) {	
+		players[trail] = players[lead];
+		trail++; lead++;
+	}
+	players[trail] = temp; //move from back to front
 }

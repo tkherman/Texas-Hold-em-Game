@@ -273,12 +273,6 @@ void Round::determine_winner(unordered_map<int, int>& flushes,
                 }
 
 
-                ////TESTING THIS!!!!!!
-                //double winnings = potBalance * potArr[it->playerNum] / (1.0 * getNumAtRank(it->best_rank) * owedToPot);
-
-
-
-
                 //it->cash_balance += potArr[it->playerNum];
                 it->cash_balance += winnings;
                 cout << "All in, so Player" << it->playerNum << " wins ";

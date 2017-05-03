@@ -19,6 +19,7 @@ class Game{
         ~Game();
         void playRound();
 		vector<Player> createPlayerVector(int);
+		void rotatePlayerVector();
 
     private:
         int numPlayers;
