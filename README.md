@@ -4,10 +4,23 @@ This is a fully implemented command-line based Texas-Hold-em-Game with odd
 calculation, ASCII graphics and AI players. It follows the fixed limited 
 betting and ante rules.
 
+## How to run the game:
 
-## How hands are compared?
+To run the game, simply run the following commands in the command line.
 
-It uses STL::unordered map to store precalculated ranking of each possible
+$ make
+then
+$ ./play_game
+
+To play the game, enter your decision to **bet, raise, check, call or fold**
+when prompted to. If you enter an invalid decision, the program will tell you
+that your command is invalid. Then simply enter a correct decision after. Any
+other information will be displayed on your window.
+
+
+### How hands are compared?
+
+It uses **STL::unordered map** to store precalculated ranking of each possible
 hands. The key for each hand is the prime multiplication of the cards and the
 value is the ranking.
 
@@ -33,7 +46,7 @@ multiplication as the key.
 
 
 
-## How are the odd calculated?
+### How odds are calculated?
 
 We use the Monte Carlo approach to estimate the odds. When getOdds function is
 called, the program simulates how the game may end by dealing out cards to other
@@ -42,7 +55,7 @@ percentage of winning is the estimation of the odd.
 
 
 
-## How the AI works?
+### How the AI works?
 
 The AI program utilizes the odd(hand strength) calculated by the getOdds
 function and the pot odd where
