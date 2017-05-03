@@ -42,7 +42,22 @@ int AI_determine(double handStrength, int bet, int pot) {
 
     /* deals with the case when no one has bet other rounds*/
     if (potOdd == 0) {
-        if (handStrength > 0.5)
+        if (handStrength < 0.15)
+            if (randNum < 25)
+                return 2;
+            else
+                return 1;
+        else if (handStrength < 0.25)
+            if (randNum < 40)
+                return 2;
+            else
+                return 1;
+        else if (handStrength < 0.5)
+            if (randNum < 60)
+                return 2;
+            else
+                return 1;
+        else if (handStrength >= 0.5)
             if (randNum < 70)
                 return 2;
             else
