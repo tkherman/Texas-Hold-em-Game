@@ -36,7 +36,7 @@ PlayerAction hashit(const string &input);
 
 class Round {
 	public:
-		Round(int, unordered_map<int, int>&, unordered_map<int, int>&); // initialize players
+//		Round(int, unordered_map<int, int>&, unordered_map<int, int>&); // initialize players
 		Round(int, vector<Player>&, unordered_map<int, int>&, unordered_map<int, int>&);
 		~Round();
 		void play(unordered_map<int, int>&, unordered_map<int, int>&);
