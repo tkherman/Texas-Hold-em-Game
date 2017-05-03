@@ -1,5 +1,4 @@
-1) need to properly cite rankings list
-2) should probably show cards after a round ends (like if comparing
+1) should probably show cards after a round ends (like if comparing
 	when nobody folds)
-3) add suits if possible
-4) further test AI
+2) add suits if possible
+3) further test AI
