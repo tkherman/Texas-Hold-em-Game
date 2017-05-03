@@ -8,7 +8,11 @@
 #include "CardDeck.h"
 using namespace std;
 
-// initialize a deck of cards
+
+/* This is the constructor for the CardDeck Class */
+// It initialize a deck of Card objects and sets
+// their respective suits, prime values, and character values
+// each card created is stored in the class's deck vector of Cards
 CardDeck::CardDeck() {
 	Card tempC;
 	char suits[] = {'d', 'c', 'h', 's'};
@@ -46,13 +50,15 @@ CardDeck::CardDeck() {
 
 CardDeck::~CardDeck() { }
 
-// return a card while removing that card from deck
+/* return a card while removing that card from deck */
+// this function will be used heavily in dealing cards
 Card CardDeck::getCard() {
 	Card returnCard = deck.back();
 	deck.pop_back();
 	return returnCard;
 }
 
+//this function removes a specific card 
 void CardDeck::remove(Card c) {
 	for(int k=0; k<deck.size(); k++) {
 		//check for equality; easier than overwriting equality operator
@@ -77,17 +83,20 @@ int CardDeck::getSize() {
 	return deck.size();
 }
 
-// shuffle the deck
-void CardDeck::shuffle() { // Fisher-Yates shuffle algorithm
+/* This function uses the Fisher-Yates shuffle algorithm to shuffle the deck */
+void CardDeck::shuffle() {
 	int n = getSize(), index;
 	Card temp;
 
-	std::random_device rd;
-	std::mt19937 mt(rd());
-	std::uniform_int_distribution<int> dist(0, 200);
+	//since we use this function repeatedly in odds calculation,
+	//we use a random number generator from the <random> library
+	//rather than the inferior rand() function
+	random_device rd;
+	mt19937 mt(rd());
+	uniform_int_distribution<int> dist(0, 200);
 
 	while (n) {
-		index = dist(mt) % n--; // random value 0 <= i < n
+		index = dist(mt) % n--; // random value 0 <= i < n, dist is the object
 		temp = deck[n];
 		deck[n] = deck[index];
 		deck[index] = temp;
