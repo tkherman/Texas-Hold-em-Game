@@ -23,12 +23,20 @@ other information will be displayed on your window.
 
 ### How hands are compared
 
-It uses **std::unordered map** to store precalculated ranking of each possible
-hands. The key for each hand is the prime multiplication of the cards and the
-value is the ranking.
-
-Each card is represented by a struct which contains the value, suit, and prime
-number. The prime number is assigned according to the value of the card.
+Comparing hands in poker is not a trivial task.  Since there are almost 2.6 
+million different possible poker hands, it is impractical to simply store a 
+ranking of all 2.6 million of these hands.  Luckily, there are only 7,462 
+different “equivalence classes” of hands, meaning that there are only 7,462 
+different groupings of hands that have the same rank.  This fact greatly 
+simplifies our calculations by allowing us to use these equivalence classes to 
+compare hands.  We pulled these equivalence classes from 
+http://www.rpbridge.net/d/pkh.dta. Our program uses std::unordered map to store 
+precalculated rankings of each of the possible hands. The key for each hand is 
+the prime multiplication of the cards and the value is the ranking. Each card 
+is represented by a struct which contains the value, suit, and prime number. The 
+prime number is assigned according to the value of the card. Each card is 
+represented by a struct which contains the value, suit, and prime number. The 
+prime number is assigned according to the value of the card.
 
 A: 41  
 2: 2  
