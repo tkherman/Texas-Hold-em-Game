@@ -43,6 +43,8 @@ int Round::getNumAllIn() {
 
 
 
+
+
 /* This is a helper function that streamlines the playing of each round */
 void Round::play(unordered_map<int, int>& flushes, unordered_map<int, int>& others) {
     // randomize seed for AI
@@ -98,6 +100,10 @@ void Round::play(unordered_map<int, int>& flushes, unordered_map<int, int>& othe
 
 }
 
+
+
+
+
 /* deals initial two cards to each player */
 // takes in an existing vector of players
 // deals cards to each player
@@ -116,12 +122,20 @@ void Round::dealToExisting(vector<Player>& players) {
 	}
 }
 
+
+
+
+
 /* deals three community cards */
 void Round::flop() {
 	Card temp_card;
 	temp_card = deck.getCard();
 	communityVec.push_back(temp_card);
 }
+
+
+
+
 
 
 /* This function prints out the community cards */
@@ -175,6 +189,9 @@ void Round::print_community() {
 
 
 
+
+
+
 /* prints the hand of a particulat player */
 void Round::print_players(int playerN) {
 	cout << "player" << playerN << ":" << endl;
@@ -198,6 +215,11 @@ void Round::print_players(int playerN) {
     printf("%s", stringToBePrinted);
     cout << endl;
 }
+
+
+
+
+
 
 
 
@@ -298,6 +320,10 @@ void Round::determine_winner(unordered_map<int, int>& flushes,
 }
 
 
+
+
+
+
 /* this function determines the number of players at a certain rank value */
 int Round::getNumAtRank(int rank) {
     int result = 0;
@@ -311,7 +337,23 @@ int Round::getNumAtRank(int rank) {
 
 
 
-/* this function implements a betting round */
+
+
+
+
+
+/*  This function implements a betting round which is called 4 times at preflop, after the initial flop
+    and two more times when community cards are dealt
+
+    The function mainly works through the big while loop which has two conditions:
+    betting and calling
+    betting is the situation when no one has bet in the round, so player has to option to fold, check or bet
+    calling is the situation when someone has bet, so player can fold, call or raise
+
+    In order to keep track of who has bet and ensure that everyone has called/raised when someone has bet,
+    we use two iterators where one indicates when the betting round has end and the other iterator goes through
+    the vector like going around the table.
+*/
 void Round::betting_round(bool ante, unordered_map<int, int> &flushes, unordered_map<int, int> &others) {
     string input;
 
@@ -388,7 +430,7 @@ void Round::betting_round(bool ante, unordered_map<int, int> &flushes, unordered
                     if (it->computer == false) {
                         cout << "Do you wish to fold, check or bet? ";
                         cin >> input;
-                    } else {
+                    } else { // if player is computer, determin the AI action by calling the AI_determine function
                         double handstrength = getOdds(it->hand, communityVec, flushes, others, numPlayers);
                         int AI_decision = AI_determine(handstrength, betInRound - origInRound, potBalance);
                         if (AI_decision == 0) {
@@ -464,7 +506,7 @@ void Round::betting_round(bool ante, unordered_map<int, int> &flushes, unordered
                     if (it->computer == false) {
                         cout << "Do you wish to fold, call, or raise? ";
                         cin >> input;
-                    } else {
+                    } else { // similar as above
                         double handstrength = getOdds(it->hand, communityVec, flushes, others, numPlayers);
                         int AI_decision = AI_determine(handstrength, betInRound - origInRound, potBalance);
                         if (AI_decision == 0) {
