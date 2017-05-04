@@ -15,46 +15,6 @@ struct Card{
 	char suit;
     char suitIcon;
     int prime_value;
-	void display() {
-		
-		string valName, suitName;
-    	switch (suit)
-    	{
-			case 'd':
-            	suitName = "Diamonds";
-            	break;
-        	case 'c':
-            	suitName = "Clubs";
-            	break;
-        	case 'h':
-            	suitName = "Hearts";
-            	break;
-        	case 's':
-            	suitName = "Spades";
-            	break;
-    	}
-		
-		if(value == 1) {
-			valName = "Ace";
-		}
-		else if(value == 11){
-			valName = "Jack";
-		}
-		else if(value == 12){
-			valName = "Queen";
-		}
-		else if(value == 13){
-			valName = "King";
-		}
-		else {
-			valName = to_string(value);
-		}
-		
-		//acutal display
-		cout << valName << " of " << suitName;
-	}
-
-
 };
 
 struct Player {
