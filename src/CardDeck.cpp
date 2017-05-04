@@ -16,7 +16,7 @@ using namespace std;
 CardDeck::CardDeck() {
 	Card tempC;
 	char suits[] = {'d', 'c', 'h', 's'};
-    char suitIcons[] = {'O', '+', '#', '@'};
+	char suitIcons[] = {'+', '#', 'O', '@'};
     unsigned int prime[] = {0, 41, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
 
 	for (int val = 1; val <= 13; val++) {
