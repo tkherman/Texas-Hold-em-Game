@@ -11,6 +11,7 @@ All the source files for this project are stored in the src folder.
 To run the game, simply run the following commands in the command line.
 
 $ make
+
 $ ./play_game
 
 To play the game, enter your decision to **bet, raise, check, call or fold**
