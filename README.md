@@ -14,6 +14,7 @@ To run the game, simply run the following commands in the command line.
 ##### $ ./play_game
 
 
+
 To play the game, enter your decision to **bet, raise, check, call or fold**
 when prompted to. If you enter an invalid decision, the program will tell you
 that your command is invalid. Then simply enter a correct decision after. Any
