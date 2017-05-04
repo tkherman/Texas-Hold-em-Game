@@ -1,30 +1,35 @@
-#Makefile
+# Makefile to run the game
+
+CC=         g++
+CFLAGS=     -c -std=c++11 -Wall
+LD=         g++
+
 
 all: play_game
 
 play_game: play_game.o Game.o Round.o CardDeck.o handTable.o oddCalc.o AI.o
-	g++ -std=c++11 -o $@ $^
+	$(LD) -o $@ $^
 
-play_game.o: play_game.cpp
-	g++ -c -std=c++11 -o $@ $^
+play_game.o: src/play_game.cpp
+	$(CC) $(CFLAGS) -o $@ $^
 
-Game.o: Game.cpp Game.h
-	g++ -c -std=c++11 -o $@ Game.cpp
+Game.o: src/Game.cpp src/Game.h
+	$(CC) $(CFLAGS) -o $@ $<
 
-Round.o: Round.cpp Round.h CardDeck.h 
-	g++ -c -std=c++11 -o $@ Round.cpp
+Round.o: src/Round.cpp src/Round.h src/CardDeck.h 
+	$(CC) $(CFLAGS) -o $@ $<
 
-CardDeck.o: CardDeck.cpp CardDeck.h
-	g++ -c -std=c++11 -o $@ CardDeck.cpp
+CardDeck.o: src/CardDeck.cpp src/CardDeck.h
+	$(CC) $(CFLAGS) -o $@ $<
 
-handTable.o: handTable.cpp handTable.h
-	g++ -c -std=c++11 -o $@ handTable.cpp
+handTable.o: src/handTable.cpp src/handTable.h
+	$(CC) $(CFLAGS) -o $@ $<
 
-oddCalc.o: oddCalc.cpp oddCalc.h
-	g++ -c -std=c++11 -o $@ oddCalc.cpp
+oddCalc.o: src/oddCalc.cpp src/oddCalc.h
+	$(CC) $(CFLAGS) -o $@ $<
 
-AI.o: AI.cpp AI.h
-	g++ -c -std=c++11 -o $@ AI.cpp
+AI.o: src/AI.cpp src/AI.h
+	$(CC) $(CFLAGS) -o $@ $<
 
 clean:
 	rm -rf *.o play_game

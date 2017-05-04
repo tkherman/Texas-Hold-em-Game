@@ -3,11 +3,16 @@
 
 #include "Game.h"
 
+// helper function that creates the playerVector
 vector<Player> createPlayerVector(int);
 
+
+/*  Constructor of game that sets all the variables needed for the game,
+    it then calls Round repeated to play out the game.
+*/
 Game::Game() {
 	
-	//ask user for number of players
+	/* Initialize variables needed for the Game to function */
 
 	numPlayers = 0; //initialize out of bounds
 	cout << "How many computer players? ";
@@ -35,7 +40,10 @@ Game::Game() {
 	//initialize flushes and others maps
 	loadHandData(flushes, others);
 
-	//loop for playing rounds
+
+
+
+	/* This is the core of the game play that loops to call playRound() */
 	do {
 		cout << "New Round" << endl;
 		cout << "----------------\n\n";
@@ -80,9 +88,21 @@ Game::Game() {
 	cout << "Game over. Player " << players[0].playerNum << " wins!" << endl;
 }
 
+
+
+
+
 //deconstructor
 Game::~Game() {}
 
+
+
+
+
+
+/*  This function takes in the number of computer player and intialize
+    the playerVec which is used in the Round class
+*/
 vector<Player> Game::createPlayerVector(int num) {
 	vector<Player> result;
     Player human;
@@ -98,16 +118,30 @@ vector<Player> Game::createPlayerVector(int num) {
 	return result;
 }
 
+
+
+
+/*  This function simply calls Round
+*/
 void Game::playRound() {
 	Round r(numPlayers, players, flushes, others);
 }
 
+
+
+/*  This function rotates the player vector so that the rounds do not
+    always begin with player0
+*/
 void Game::rotatePlayerVector() {
 	int trail = 0, lead = 1;
 	Player temp = players[0];
+
+
 	while(lead < numPlayers) {	
 		players[trail] = players[lead];
 		trail++; lead++;
 	}
+
+
 	players[trail] = temp; //move from back to front
 }
