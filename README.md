@@ -23,7 +23,7 @@ other information will be displayed on your window.
 
 ### How hands are compared
 
-It uses **STL::unordered map** to store precalculated ranking of each possible
+It uses **std::unordered map** to store precalculated ranking of each possible
 hands. The key for each hand is the prime multiplication of the cards and the
 value is the ranking.
 
@@ -55,21 +55,21 @@ multiplication as the key.
 We use the Monte Carlo approach to estimate the odds. When getOdds function is
 called, the program simulates how the game may end by dealing out cards to other
 players and record the winner. This is done repeated for 10,000 times and the
-percentage of winning is the estimation of the odd.
+percentage of winning is the estimation of the odds.
 
 
 
 ### How the AI works
 
-The AI program utilizes the odd(hand strength) calculated by the getOdds
-function and the pot odd where
+The AI program utilizes the odds(hand strength) calculated by the getOdds
+function and the pot odds where
 
-pot odd = bet/pot
+pot odds = bet/pot
 
-The hand strength and pot odd are then used to calculate the rate of return 
+The hand strength and pot odds are then used to calculate the rate of return 
 
-rate of return = hand strength/ pot odd
+rate of return = hand strength/ pot odds
 
 The rate of return is then used as a parameter to make a decision. With different 
-values of rate of return, there's are different probabilities for the AI to check, 
+values of rate of return, there are different probabilities for the AI to check, 
 call, fold, bet or raise.
