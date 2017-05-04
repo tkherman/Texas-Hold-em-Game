@@ -4,6 +4,8 @@ This is a fully implemented command-line based Texas-Hold-em-Game with odd
 calculation, ASCII graphics and AI players. It follows the fixed limited 
 betting and ante rules.
 
+All the source files for this project are stored in the src folder.
+
 ## How to run the game:
 
 To run the game, simply run the following commands in the command line.
