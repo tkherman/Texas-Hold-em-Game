@@ -224,7 +224,6 @@ void Round::determine_winner(unordered_map<int, int>& flushes,
     
     // print out players with highest rank
     int numberOfWinners, winning_rank;
-    bool processing = true;
     vector<Player>::iterator start_it = playerVec.begin();
     vector<Player>::iterator it = playerVec.begin();
 

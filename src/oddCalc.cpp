@@ -118,14 +118,6 @@ int monteCarlo(CardDeck myDeck, Card hand[2], vector<Card> community,
     //loss
 	if(playerCards[0].best_rank > winning_rank) return -1;
 
-
-	//check for ties
-	for(int k=1; k<playerCards.size(); k++) {
-		if(playerCards[k].best_rank == winning_rank)
-			return 0;
-	}
-
-
 	//a win
 	return 1;
 }
@@ -149,7 +141,7 @@ double getOdds(Card hand[2], vector<Card> community, unordered_map<int,int> &flu
 		myDeck.remove(community[k]);
 	
 	//run simulations
-	int wins = 0, losses = 0, ties = 0;
+	int wins = 0, losses = 0;
 	for(int k=0; k<10000; k++) {
 		int result = monteCarlo(myDeck, hand, community, flushes, others, playersLeft);
 		//result will only be -1, 0, or 1
@@ -157,16 +149,13 @@ double getOdds(Card hand[2], vector<Card> community, unordered_map<int,int> &flu
 			case -1:
 				losses++;
 				break;
-			case 0:
-				ties++;
-				break;
 			case 1:
 				wins++;
 				break;
 		}
 	}
 
-	double winPct = 1.0 * wins / (wins + losses + ties);
+	double winPct = 1.0 * wins / (wins + losses);
 	return winPct;
 
 }
