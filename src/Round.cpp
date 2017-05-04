@@ -12,7 +12,7 @@ PlayerAction hashit(const string &input) {
     else return invalid;
 }
 
-//to be used in game class
+/* constructor for round class */
 Round::Round(int num, vector<Player>& players, unordered_map<int, int>& flushes, unordered_map<int, int>& others) {
 	
 	numPlayers = num;
@@ -42,6 +42,8 @@ int Round::getNumAllIn() {
 }
 
 
+
+/* This is a helper function that streamlines the playing of each round */
 void Round::play(unordered_map<int, int>& flushes, unordered_map<int, int>& others) {
     // randomize seed for AI
     srand(time(NULL));
@@ -96,18 +98,10 @@ void Round::play(unordered_map<int, int>& flushes, unordered_map<int, int>& othe
 
 }
 
-void Round::deal(int num) {
-	// create temp_player, assign 2 cards and add temp_player to vector
-	for (int i = 0; i < num; i++) {
-		Player temp_player;
-		temp_player.playerNum = i;
-		temp_player.hand[0] = deck.getCard();
-		temp_player.hand[1] = deck.getCard();
-		temp_player.in_out = true;
-		playerVec.push_back(temp_player);
-	}
-}
-
+/* deals initial two cards to each player */
+// takes in an existing vector of players
+// deals cards to each player
+// and adds each player to the playerVec of the Round class
 void Round::dealToExisting(vector<Player>& players) {
 	// create temp_player, assign 2 cards and add temp_player to vector
 	for (auto it = players.begin(); it != players.end(); it++) {
@@ -122,6 +116,7 @@ void Round::dealToExisting(vector<Player>& players) {
 	}
 }
 
+/* deals three community cards */
 void Round::flop() {
 	Card temp_card;
 	temp_card = deck.getCard();
@@ -129,7 +124,7 @@ void Round::flop() {
 }
 
 
-// This function prints out the community cards
+/* This function prints out the community cards */
 void Round::print_community() {
 
 	// clear screen by printing 10 newline
@@ -178,6 +173,9 @@ void Round::print_community() {
 	cout << endl << endl << endl;
 }
 
+
+
+/* prints the hand of a particulat player */
 void Round::print_players(int playerN) {
 	cout << "player" << playerN << ":" << endl;
     char stringToBePrinted[300];
@@ -201,6 +199,9 @@ void Round::print_players(int playerN) {
     cout << endl;
 }
 
+
+
+/* This function determines the winner of a hand*/
 void Round::determine_winner(unordered_map<int, int>& flushes, 
 		unordered_map<int, int>& others) {
 
@@ -259,7 +260,6 @@ void Round::determine_winner(unordered_map<int, int>& flushes,
                 }
 
 
-                //it->cash_balance += potArr[it->playerNum];
                 it->cash_balance += winnings;
                 cout << "All in, so Player" << it->playerNum << " wins ";
                 cout << winnings << endl;
@@ -298,6 +298,8 @@ void Round::determine_winner(unordered_map<int, int>& flushes,
 
 }
 
+
+/* this function determines the number of players at a certain rank value */
 int Round::getNumAtRank(int rank) {
     int result = 0;
     for (auto it = playerVec.begin(); it != playerVec.end(); it++) {
@@ -309,6 +311,8 @@ int Round::getNumAtRank(int rank) {
 }
 
 
+
+/* this function implements a betting round */
 void Round::betting_round(bool ante, unordered_map<int, int> &flushes, unordered_map<int, int> &others) {
     string input;
 
