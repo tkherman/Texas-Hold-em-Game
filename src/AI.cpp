@@ -52,17 +52,17 @@ int AI_determine(double handStrength, int bet, int pot) {
             else
                 return 1;
         else if (handStrength < 0.25)
-            if (randNum < 35)
+            if (randNum < 30)
                 return 2;
             else
                 return 1;
         else if (handStrength < 0.5)
-            if (randNum < 55)
+            if (randNum < 35)
                 return 2;
             else
                 return 1;
         else if (handStrength >= 0.5)
-            if (randNum < 65)
+            if (randNum < 40)
                 return 2;
             else
                 return 1;
