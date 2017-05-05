@@ -195,7 +195,7 @@ void Round::print_players(int playerN) {
 	int index = -1;
 	for(int k=0; k<playerVec.size(); k++) {
 		if(playerVec[k].playerNum == playerN) {
-			index = playerN;
+			index = k; 
 			break;
 		}
 	}
@@ -252,10 +252,14 @@ void Round::determine_winner(unordered_map<int, int>& flushes,
     //print out cards of all players who didn't fold
 	for(auto it = playerVec.begin(); it != playerVec.end(); ++it){ 
 		if(it->in_out) print_players(it->playerNum);
+		
+		//the following is used for debugging purposes
+		/*
 		cout << "Player" << it->playerNum << " has " << it->hand[0].charVal;
 		cout << it->hand[0].suit;
 		cout << " and " << it->hand[1].charVal << it->hand[1].suit;
 		cout << " and " << " best rank " << it->best_rank << endl;
+		*/
 	}
 	
 	//print community
