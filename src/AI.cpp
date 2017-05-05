@@ -31,11 +31,11 @@ int AI_determine(double handStrength, int bet, int pot) {
     Else (RR >= 1.3) 0% fold, 30% call, 70% raise
     If fold and amount to call is zero, then call.*/
     
-    cout << "bet: " << bet << ", pot: " << pot << endl;
-    cout << "sum: " << sum << endl;
-    cout << "potOdd: " << potOdd << endl;
-    cout << "handStrength: " << handStrength << endl;
-    cout << "RR: " << RR << endl;
+    cout << "To call: $" << bet << ", pot: $" << pot << endl;
+    //cout << "sum: " << sum << endl;
+    //cout << "potOdd: " << potOdd << endl;
+    //cout << "handStrength: " << handStrength << endl;
+    //cout << "RR: " << RR << endl;
 
     
     // generate a random number between 0-99
@@ -47,22 +47,22 @@ int AI_determine(double handStrength, int bet, int pot) {
     */
     if (potOdd == 0) {
         if (handStrength < 0.15)
-            if (randNum < 25)
+            if (randNum < 20)
                 return 2;
             else
                 return 1;
         else if (handStrength < 0.25)
-            if (randNum < 40)
+            if (randNum < 35)
                 return 2;
             else
                 return 1;
         else if (handStrength < 0.5)
-            if (randNum < 60)
+            if (randNum < 55)
                 return 2;
             else
                 return 1;
         else if (handStrength >= 0.5)
-            if (randNum < 70)
+            if (randNum < 65)
                 return 2;
             else
                 return 1;

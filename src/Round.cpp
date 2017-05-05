@@ -141,11 +141,8 @@ void Round::flop() {
 /* This function prints out the community cards */
 void Round::print_community() {
 
-	// clear screen by printing 10 newline
-    for (int i = 0; i < 10; i++) {
-        printf("\n");
-    }
-    
+	cout << "\n\n";
+
     // create a vector for cards to be printed
     vector<Card> printingVec = communityVec;
     while (printingVec.size() < 5) {
@@ -194,6 +191,15 @@ void Round::print_community() {
 
 /* prints the hand of a particulat player */
 void Round::print_players(int playerN) {
+	
+	int index = -1;
+	for(int k=0; k<playerVec.size(); k++) {
+		if(playerVec[k].playerNum == playerN) {
+			index = playerN;
+			break;
+		}
+	}
+	
 	cout << "player" << playerN << ":" << endl;
     char stringToBePrinted[300];
     sprintf(stringToBePrinted,
@@ -206,16 +212,15 @@ void Round::print_players(int playerN) {
 |           | |           |\n\
 |         %c%c| |         %c%c|\n\
  -----------   ----------- " 
-    , playerVec[playerN].hand[0].charVal, playerVec[playerN].hand[0].suitIcon
-    , playerVec[playerN].hand[1].charVal, playerVec[playerN].hand[1].suitIcon
-    , playerVec[playerN].hand[0].suitIcon, playerVec[playerN].hand[1].suitIcon
-    , playerVec[playerN].hand[0].charVal, playerVec[playerN].hand[0].suitIcon
-    , playerVec[playerN].hand[1].charVal, playerVec[playerN].hand[1].suitIcon
+    , playerVec[index].hand[0].charVal, playerVec[index].hand[0].suitIcon
+    , playerVec[index].hand[1].charVal, playerVec[index].hand[1].suitIcon
+    , playerVec[index].hand[0].suitIcon, playerVec[index].hand[1].suitIcon
+    , playerVec[index].hand[0].charVal, playerVec[index].hand[0].suitIcon
+    , playerVec[index].hand[1].charVal, playerVec[index].hand[1].suitIcon
     );
     printf("%s", stringToBePrinted);
     cout << endl;
 }
-
 
 
 
@@ -244,7 +249,20 @@ void Round::determine_winner(unordered_map<int, int>& flushes,
     
     
     
-    // print out players with highest rank
+    //print out cards of all players who didn't fold
+	for(auto it = playerVec.begin(); it != playerVec.end(); ++it){ 
+		if(it->in_out) print_players(it->playerNum);
+		cout << "Player" << it->playerNum << " has " << it->hand[0].charVal;
+		cout << it->hand[0].suit;
+		cout << " and " << it->hand[1].charVal << it->hand[1].suit;
+		cout << " and " << " best rank " << it->best_rank << endl;
+	}
+	
+	//print community
+	print_community();
+	
+	
+	// print out players with highest rank
     int numberOfWinners, winning_rank;
     vector<Player>::iterator start_it = playerVec.begin();
     vector<Player>::iterator it = playerVec.begin();
@@ -269,7 +287,7 @@ void Round::determine_winner(unordered_map<int, int>& flushes,
             if(it->all_in) {
                 
 
-                //determine amount of winnings
+                /*determine amount of winnings*/
 
                 //initialize to equal pot balance
                 double winnings = potBalance;
@@ -285,7 +303,6 @@ void Round::determine_winner(unordered_map<int, int>& flushes,
                 cout << "All in, so Player" << it->playerNum << " wins ";
                 cout << winnings << endl;
                 numAllIn--;
-
 
 
                 //adjust pot balance and make player out
@@ -416,7 +433,7 @@ void Round::betting_round(bool ante, unordered_map<int, int> &flushes, unordered
 				
                 print_players(it->playerNum);
 
-                cout << "Chance of winning: " << getOdds(it->hand, communityVec, flushes, others, numPlayers) << endl;
+                cout << "Chance of winning: " << getOdds(it->hand, communityVec, flushes, others, playersLeft) << endl;
                 cout << "You have $" << it->cash_balance << endl;
                 cout << "Total amount in pot $" << potBalance << endl;
             } else {
@@ -431,7 +448,7 @@ void Round::betting_round(bool ante, unordered_map<int, int> &flushes, unordered
                         cout << "Do you wish to fold, check or bet? ";
                         cin >> input;
                     } else { // if player is computer, determin the AI action by calling the AI_determine function
-                        double handstrength = getOdds(it->hand, communityVec, flushes, others, numPlayers);
+                        double handstrength = getOdds(it->hand, communityVec, flushes, others, playersLeft);
                         int AI_decision = AI_determine(handstrength, betInRound - origInRound, potBalance);
                         if (AI_decision == 0) {
                             input = "fold";
@@ -507,7 +524,7 @@ void Round::betting_round(bool ante, unordered_map<int, int> &flushes, unordered
                         cout << "Do you wish to fold, call, or raise? ";
                         cin >> input;
                     } else { // similar as above
-                        double handstrength = getOdds(it->hand, communityVec, flushes, others, numPlayers);
+                        double handstrength = getOdds(it->hand, communityVec, flushes, others, playersLeft);
                         int AI_decision = AI_determine(handstrength, betInRound - origInRound, potBalance);
                         if (AI_decision == 0) {
                             input = "fold";

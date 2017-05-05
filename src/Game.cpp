@@ -76,7 +76,7 @@ Game::Game() {
 		}
 		cout << endl << "----Round Over----" << endl << endl;
 		
-		cout << "Press enter to continue." << endl << endl;
+		cout << "Press enter to continue.";
 		cin.ignore(); cin.get();
 		for(int k=0; k<5; k++) cout << "\n\n\n\n\n\n\n\n\n\n";
 
